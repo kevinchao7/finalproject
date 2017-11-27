@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import Container from "../components/Container";
 import Row from "../components/Row";
 import Col from "../components/Col";
+import API from "../utils/API";
 
 const About = () =>
   <div>
@@ -14,7 +15,7 @@ const About = () =>
       <Row>
         <Col size="md-12">
           <p>Please Log In.</p>
-          <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+          <button onClick={API.getLogin} className="btn btn-danger"><span className="fa fa-google-plus"></span> Google</button>
         </Col>
       </Row>
     </Container>

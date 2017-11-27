@@ -1,62 +1,44 @@
 const moment = require('moment');
 const emailAPI = require('./email_api.js');
 
-module.exports = (app,db,passport)=> {return {
+module.exports = (app,db)=> {return {
   createRoutes : (table,route)=>{
     app.get(route,(req,res)=>{
       // Searches for user's fixed costs.
-      console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
-      if (req.user && req.isAuthenticated()) {
-        var query = {};
-        query.clientid = req.user;
-        db[table].findAll({
-          where: query,
-          include: [db.clients]
-        })
-        .then((dbResp)=>{
-          res.json(dbResp);
-        });
-      }
-      else{
-        ErrorMessage(res);
-      }
+      // console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
+      var query = {};
+      query.clientId = 2;
+      db[table].findAll({
+        where: query,
+        include: [db.clients]
+      })
+      .then((dbResp)=>{
+        res.json(dbResp);
+      });
     });
 
     app.delete(route,(req,res)=>{
-      if (req.user && req.isAuthenticated()){
-        db[table].destroy({ where : { id : req.params.id, clientid : req.user } })
-        .then((dbResp)=>{
-          res.json(dbResp);
-        });
-      }
-      else{
-        ErrorMessage(res);
-      }
+      db[table].destroy({ where : { id : 2, clientid : 2 } })
+      .then((dbResp)=>{
+        res.json(dbResp);
+      });
     });
 
     app.put(route,(req,res)=>{
-      if(req.user && req.isAuthenticated()){
-        db[table].update(req.body, { where : { id : req.params.id, clientid : req.user } })
-        .then((dbResp)=>{
-          dbTrigger(db,req);
-          res.json(dbResp);
-        });
-      }else{
-        ErrorMessage(res);
-      }
+      db[table].update(req.body, { where : { id : 2, clientid : 2 } })
+      .then((dbResp)=>{
+        dbTrigger(db,req);
+        res.json(dbResp);
+      });
     });
 
     app.post(route,(req,res)=>{
-      if(req.user && req.isAuthenticated()){
-        const newItem = req.body;
-        newItem.clientid = req.user;
-        db[table].create(newItem).then((dbResp)=>{
-          dbTrigger(db,req);
-          res.json(dbResp);
-        });
-      }else{
-        ErrorMessage(res);
-      }
+      const newItem = req.body;
+      newItem.clientid = req.user;
+      db[table].create(newItem).then((dbResp)=>{
+        dbTrigger(db,req);
+        res.json(dbResp);
+      });
     });
   }
 }};
@@ -64,7 +46,7 @@ module.exports = (app,db,passport)=> {return {
 
 // Updates current month's spending
 function dbTrigger(db,req){
-  db.clients.findOne( { where: { id : req.user } }).then((clientResp)=>{
+  db.clients.findOne( { where: { id : 2 } }).then((clientResp)=>{
     db.flexspend.findAll( { where: { clientid : req.user,
       createdAt : { $gte: moment().subtract(1, 'months').toDate() }
     } }).then((flexResp)=>{

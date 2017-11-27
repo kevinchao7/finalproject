@@ -1,11 +1,7 @@
 module.exports = (app,db) =>{
   // Read client data
   app.get('/api/client/',(req,res)=>{
-    if (req.user && req.isAuthenticated()){
-      db.clients.findOne({ where : {id : req.user }}).then( (dbResp)=>{ res.json(dbResp) } );
-    }else{
-      res.json({message : 'You are not logged in'});
-    }
+    db.clients.findOne({ where : {id : 2 }}).then( (dbResp)=>{ res.json(dbResp) } );
   });
   // Modify Settings
   app.put('/api/client',(req,res)=>{
@@ -22,12 +18,12 @@ module.exports = (app,db) =>{
       }).then((resp)=>{ res.redirect('/profile/') });
   });
 
-  app.get('/logout/',(req,res)=>{
-    if(req.user && req.isAuthenticated()){
-      req.logout();
-    }
-    res.redirect('/');
-  })
+  // app.get('/logout/',(req,res)=>{
+  //   if(req.user && req.isAuthenticated()){
+  //     req.logout();
+  //   }
+  //   res.redirect('/');
+  // })
   // app.post("/api/client",(req,res)=>{
   //   db.clients.create({
   //     client_name : req.body.name
