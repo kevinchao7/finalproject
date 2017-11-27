@@ -14,7 +14,7 @@ const About = () =>
       <Row>
         <Col size="md-12">
           <p>Please Log In.</p>
-          <a href="http://localhost:3001/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+          <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
         </Col>
       </Row>
     </Container>
