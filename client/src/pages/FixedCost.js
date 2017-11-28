@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import Card from "../components/Card";
 import Alert from "../components/Alert";
 import API from "../utils/API";
+import { Input, FormBtn, DropDownList } from "../components/Form";
 import { Link } from "react-router-dom";
 
 class FixedCost extends Component {
   state = {
+    item_name:'',
+    cost:'',
     items: []
   };
 
@@ -39,6 +42,9 @@ class FixedCost extends Component {
   // };
 
   loadFixedCosts = () => {
+    API.getData().then((resp)=>{
+      this.setState({income: parseFloat(resp.data.monthly_income)});
+    });
     API.getFixedData().then((resp)=>{
       var totalCost = 0.0;
       resp.data.forEach((value)=>{
@@ -48,15 +54,50 @@ class FixedCost extends Component {
     });
   };
 
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if (this.state.cost && this.state.item_name) {
+      var tmpObj = {
+        cost : this.state.cost,
+        item_name : this.state.item_name,
+        clientId: 2
+      }
+      API.saveFixedData(tmpObj).then((resp)=>{
+        console.log(resp);
+        this.setState({
+          cost : '',
+          item_name:''
+        })
+        this.loadFixedCosts();
+      }).catch((err)=>{throw err});
+    }
+  };
+
+  handleClick(itemId, event){
+    API.deleteFixedData(itemId).then((resp)=>{
+      this.loadFixedCosts();
+    }).catch((err)=>{
+      throw err;
+    })
+  }
+
   render() {
 
-    var fixedPercent = this.state.fixedCost / this.state.income * 100;
+    var fixedPercent = (this.state.fixedCost / this.state.income * 100).toFixed(2);
     return (
 
       // <p>Monthly Income: {this.state.income}</p>
       // <p>Total Fixed Cost: {this.state.fixedCost}</p>
       // <p>Fixed Cost Percentage: {fixedPercent}</p>
-
+      <div>
+        <p>Fixed Cost Percentage: {fixedPercent}%</p>
       <table className="table">
         <thead>
           <tr>
@@ -70,7 +111,7 @@ class FixedCost extends Component {
           {this.state.items.length ? (
                 this.state.items.map(item => {
                   return (
-                    <tr key={item.id}>
+                    <tr>
                       <td>
                         <strong>{item.id}</strong>
                       </td>
@@ -86,8 +127,8 @@ class FixedCost extends Component {
                       </td>
                       <td>
                         <button
-                          className="btn btn-danger"
-                          onClick={() => this.deleteCost(item.id)}
+                          className="btn btn-danger" id={item.id}
+                          onClick={(e) => this.handleClick(item.id,e)}
                         >
                           Remove
                         </button>
@@ -101,19 +142,30 @@ class FixedCost extends Component {
         </tbody>
       </table>
 
-      // <div>
-      //   <h1 className="text-center">Make New Friends</h1>
-      //   <h3 className="text-center">
-      //     Thumbs up on any pups you'd like to meet!
-      //   </h3>
-      //   <Card image={this.state.image} handleBtnClick={this.handleBtnClick} />
-      //   <h1 className="text-center">
-      //     Made friends with {this.state.matchCount} pups so far!
-      //   </h1>
-      //   <Alert style={{ opacity: this.state.match ? 1 : 0 }} type="success">
-      //     Yay! That Pup Liked You Too!!!
-      //   </Alert>
-      // </div>
+      <form>
+        <label>Item Name</label>
+        <Input
+          value={this.state.item_name}
+          onChange={this.handleInputChange}
+          name="item_name"
+          placeholder="Enter an item name"
+        />
+        <label>Item Cost</label>
+        <Input
+          value={this.state.cost}
+          onChange={this.handleInputChange}
+          name="cost"
+          placeholder="Enter cost of item"
+        />
+        <FormBtn
+          disabled={!(this.state.cost && this.state.item_name)}
+          onClick={this.handleFormSubmit}
+        >
+          Submit Fixed Cost Item
+        </FormBtn>
+      </form>
+    </div>
+
     );
   }
 }

@@ -5,7 +5,7 @@ import Row from "../components/Row";
 import Col from "../components/Col";
 import API from "../utils/API";
 
-class About extends Component {
+class Dashboard extends Component {
   state = {
   };
 
@@ -130,28 +130,5 @@ class About extends Component {
     );
   }
 }
-// const About = () =>
-//   <div>
-//     <Hero backgroundImage="https://www.europol.europa.eu/sites/default/files/images/finance_budget.jpg">
-//       <h1>Financial Budget App</h1>
-//       <h2>Start Saving Now!</h2>
-//     </Hero>
-//     <Container style={{ marginTop: 30 }}>
-//       <Row>
-//         <Col size="md-12">
-//           <h1>Dashboard - Flexible Spending</h1>
-//         </Col>
-//       </Row>
-//       <Row>
-//         <Col size="md-12">
-//           <p>Name: {data2}</p>
-//           <p>Fixed Costs: </p>
-//           <p>
-//             Email:
-//           </p>
-//         </Col>
-//       </Row>
-//     </Container>
-//   </div>;
 
-export default About;
+export default Dashboard;

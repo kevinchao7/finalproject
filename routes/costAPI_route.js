@@ -18,14 +18,14 @@ module.exports = (app,db)=> {return {
     });
 
     app.delete(route,(req,res)=>{
-      db[table].destroy({ where : { id : 2, clientid : 2 } })
+      db[table].destroy({ where : { id : req.query.id, clientid : 2 } })
       .then((dbResp)=>{
         res.json(dbResp);
       });
     });
 
     app.put(route,(req,res)=>{
-      db[table].update(req.body, { where : { id : 2, clientid : 2 } })
+      db[table].update(req.body, { where : { id : req.id, clientid : 2 } })
       .then((dbResp)=>{
         dbTrigger(db,req);
         res.json(dbResp);
@@ -34,7 +34,7 @@ module.exports = (app,db)=> {return {
 
     app.post(route,(req,res)=>{
       const newItem = req.body;
-      newItem.clientid = req.user;
+      newItem.clientid = 2;
       db[table].create(newItem).then((dbResp)=>{
         dbTrigger(db,req);
         res.json(dbResp);

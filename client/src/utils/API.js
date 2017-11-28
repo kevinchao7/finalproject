@@ -3,25 +3,36 @@ import axios from "axios";
 // Export an object containing methods we'll use for accessing the Dog.Ceo API
 
 export default {
-  getRandomDog: function() {
-    return axios.get("https://dog.ceo/api/breeds/image/random");
-  },
-  getDogsOfBreed: function(breed) {
-    return axios.get("https://dog.ceo/api/breed/" + breed + "/images");
-  },
-  getBaseBreedsList: function() {
-    return axios.get("https://dog.ceo/api/breeds/list");
-  },
   getData: function() {
-    return axios.get('/api/client/');
+    return axios.get('/api/client');
   },
   getFixedData: function() {
-    return axios.get('/api/fixedcost/');
+    return axios.get('/api/fixedcost');
   },
   getFlexData: function() {
-    return axios.get('/api/flexspend/');
+    return axios.get('/api/flexspend');
   },
   getGoalData: function() {
-    return axios.get('/api/goal/');
+    return axios.get('/api/goal');
+  },
+  // Saves data to the database
+  saveFixedData: function(fixedCostData) {
+    return axios.post("/api/fixedcost", fixedCostData);
+  },
+  saveFlexData: function(flexData) {
+    return axios.post("/api/flexspend", flexData);
+  },
+  saveGoalData: function(goalData) {
+    return axios.post("/api/goal", goalData);
+  },
+  // Saves data to the database
+  deleteFixedData: function(itemId) {
+    return axios.delete("/api/fixedcost", { params : { id : itemId }});
+  },
+  deleteFlexData: function(itemId) {
+    return axios.delete("/api/flexspend", { params : { id : itemId }});
+  },
+  deleteGoalData: function(itemId) {
+    return axios.delete("/api/goal", { params : { id : itemId }});
   }
 };

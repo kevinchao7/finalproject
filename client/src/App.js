@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import FixedCost from "./pages/FixedCost";
-import About from "./pages/About";
+import FlexSpend from "./pages/FlexSpend";
+import Goals from "./pages/Goals";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Search from "./pages/Search";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Wrapper from "./components/Wrapper";
@@ -13,10 +14,11 @@ const App = () =>
     <div>
       <Navbar />
       <Wrapper>
-        <Route exact path="/" component={About} />
-        <Route exact path="/about" component={About} />
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/fixedcost" component={FixedCost} />
-        <Route exact path="/search" component={Search} />
+        <Route exact path="/flexspend" component={FlexSpend} />
+        <Route exact path="/goal" component={Goals} />
       </Wrapper>
       <Footer />
     </div>

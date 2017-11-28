@@ -20,15 +20,22 @@ const Navbar = props =>
               : ""
           }
         >
-          <Link to="/">About</Link>
+          <Link to="/">Dashboard</Link>
         </li>
         <li
           className={window.location.pathname === "/fixedcost" ? "active" : ""}
         >
-          <Link to="/fixedcost">Fixed Cost</Link>
+          <Link to="/fixedcost">Fixed Costs</Link>
         </li>
-        <li className={window.location.pathname === "/search" ? "active" : ""}>
-          <Link to="/search">Search</Link>
+        <li
+          className={window.location.pathname === "/flexspend" ? "active" : ""}
+        >
+          <Link to="/flexspend">Flexible Spendings</Link>
+        </li>
+        <li
+          className={window.location.pathname === "/goal" ? "active" : ""}
+        >
+          <Link to="/goal">Financial Goals</Link>
         </li>
       </ul>
     </div>
