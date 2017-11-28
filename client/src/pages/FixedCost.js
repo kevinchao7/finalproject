@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 class FixedCost extends Component {
   state = {
+    items: []
   };
 
   // When the component mounts, load the next dog to be displayed
@@ -43,7 +44,7 @@ class FixedCost extends Component {
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
       });
-      this.setState({fixedCost : totalCost, items:resp.data})
+      this.setState({fixedCost : totalCost, items: resp.data})
     });
   };
 
@@ -67,16 +68,18 @@ class FixedCost extends Component {
         </thead>
         <tbody>
           {this.state.items.length ? (
-                {this.state.items.map(item => (
-                  <tr key={item.id}>
+                this.state.items.map(item => {
+                  return (
+                    <tr key={item.id}>
                       <strong>
                         {item.item_name}
                       </strong>
                       <p>
                         {item.cost}
                       </p>
-                  </tr>
-                ))}
+                    </tr>
+                  )
+                })
           ) : (
             <h3>No Results to Display</h3>
           )}
