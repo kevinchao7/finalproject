@@ -71,12 +71,27 @@ class FixedCost extends Component {
                 this.state.items.map(item => {
                   return (
                     <tr key={item.id}>
-                      <strong>
-                        {item.item_name}
-                      </strong>
-                      <p>
-                        {item.cost}
-                      </p>
+                      <td>
+                        <strong>{item.id}</strong>
+                      </td>
+                      <td>
+                        <strong>
+                          {item.item_name}
+                        </strong>
+                      </td>
+                      <td>
+                        <p>
+                          {item.cost}
+                        </p>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => this.deleteCost(item.id)}
+                        >
+                          Remove
+                        </button>
+                      </td>
                     </tr>
                   )
                 })
