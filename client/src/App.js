@@ -11,7 +11,7 @@ import Wrapper from "./components/Wrapper";
 
 const App = () =>
   <Router>
-    <div>
+    <div className = "container">
       <Navbar />
       <Wrapper>
         <Route exact path="/" component={Dashboard} />

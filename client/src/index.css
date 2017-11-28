@@ -9,10 +9,14 @@ div[data-reactroot] {
   height: 100%;
   padding: 0;
   margin: 0;
+  font-family: Catamaran;
 }
 
-.progress{
-  height:8vh !important;
+.large {
+  height:12vh !important;
+}
+
+.progress {
   padding: 0px !important;
-  margin: 0 2px;
+  margin: 5px 5px !important;
 }

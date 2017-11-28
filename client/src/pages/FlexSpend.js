@@ -98,72 +98,75 @@ class FlexSpend extends Component {
       // <p>Fixed Cost Percentage: {fixedPercent}</p>
       <div>
         <p>Flexible Spending Percent: {flexPercent}%</p>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">SNo.</th>
-            <th scope="col">Name of Item</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.items.length ? (
-                this.state.items.map(item => {
-                  return (
-                    <tr>
-                      <td>
-                        <strong>{item.id}</strong>
-                      </td>
-                      <td>
-                        <strong>
-                          {item.item_name}
-                        </strong>
-                      </td>
-                      <td>
-                        <p>
-                          {item.cost}
-                        </p>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-danger" id={item.id}
-                          onClick={(e) => this.handleClick(item.id,e)}
-                        >
-                          Remove
-                        </button>
-                      </td>
-                    </tr>
-                  )
-                })
-          ) : (
-            <h3>No Results to Display</h3>
-          )}
-        </tbody>
-      </table>
-
-      <form>
-        <label>Item Name</label>
-        <Input
-          value={this.state.item_name}
-          onChange={this.handleInputChange}
-          name="item_name"
-          placeholder="Enter an item name"
-        />
-        <label>Item Cost</label>
-        <Input
-          value={this.state.cost}
-          onChange={this.handleInputChange}
-          name="cost"
-          placeholder="Enter cost of item"
-        />
-        <FormBtn
-          disabled={!(this.state.cost && this.state.item_name)}
-          onClick={this.handleFormSubmit}
-        >
-          Submit Flexible Spending Item
-        </FormBtn>
-      </form>
+        <div className="col-xs-8">
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">SNo.</th>
+                <th scope="col">Name of Item</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.items.length ? (
+                    this.state.items.map(item => {
+                      return (
+                        <tr>
+                          <td>
+                            <strong>{item.id}</strong>
+                          </td>
+                          <td>
+                            <strong>
+                              {item.item_name}
+                            </strong>
+                          </td>
+                          <td>
+                            <p>
+                              {item.cost}
+                            </p>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-danger" id={item.id}
+                              onClick={(e) => this.handleClick(item.id,e)}
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })
+              ) : (
+                <h3>No Results to Display</h3>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="col-xs-4">
+          <form>
+            <label>Item Name</label>
+            <Input
+              value={this.state.item_name}
+              onChange={this.handleInputChange}
+              name="item_name"
+              placeholder="Enter an item name"
+            />
+            <label>Item Cost</label>
+            <Input
+              value={this.state.cost}
+              onChange={this.handleInputChange}
+              name="cost"
+              placeholder="Enter cost of item"
+            />
+            <FormBtn
+              disabled={!(this.state.cost && this.state.item_name)}
+              onClick={this.handleFormSubmit}
+            >
+              Submit Flexible Spending Item
+            </FormBtn>
+          </form>
+        </div>
     </div>
 
     );

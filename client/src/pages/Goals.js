@@ -103,85 +103,88 @@ class Goals extends Component {
       // <p>Fixed Cost Percentage: {fixedPercent}</p>
       <div>
         <p>Financial Goal Percent: {goalPercent}%</p>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">SNo.</th>
-              <th scope="col">Name of Item</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Duration(months)</th>
-              <th scope="col">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.items.length ? (
-                  this.state.items.map(item => {
-                    return (
-                      <tr>
-                        <td>
-                          <strong>{item.id}</strong>
-                        </td>
-                        <td>
-                          <strong>
-                            {item.item_name}
-                          </strong>
-                        </td>
-                        <td>
-                          <p>
-                            {item.cost}
-                          </p>
-                        </td>
-                        <td>
-                          <p>
-                            {item.duration}
-                          </p>
-                        </td>
-                        <td>
-                          <button
-                            className="btn btn-danger" id={item.id}
-                            onClick={(e) => this.handleClick(item.id,e)}
-                          >
-                            Remove
-                          </button>
-                        </td>
-                      </tr>
-                    )
-                  })
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </tbody>
-        </table>
-
-        <form>
-          <label>Item Name</label>
-          <Input
-            value={this.state.item_name}
-            onChange={this.handleInputChange}
-            name="item_name"
-            placeholder="Enter an item name"
-          />
-          <label>Item Cost</label>
-          <Input
-            value={this.state.cost}
-            onChange={this.handleInputChange}
-            name="cost"
-            placeholder="Enter cost of item"
-          />
-          <label>Duration(months)</label>
-          <Input
-            value={this.state.duration}
-            onChange={this.handleInputChange}
-            name="duration"
-            placeholder="Enter duration(months) to pay off"
-          />
-          <FormBtn
-            disabled={!(this.state.cost && this.state.item_name && this.state.duration)}
-            onClick={this.handleFormSubmit}
-          >
-            Submit Goal Item
-          </FormBtn>
-        </form>
+        <div className="col-xs-8">
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">SNo.</th>
+                <th scope="col">Name of Item</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Duration(months)</th>
+                <th scope="col">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.items.length ? (
+                    this.state.items.map(item => {
+                      return (
+                        <tr>
+                          <td>
+                            <strong>{item.id}</strong>
+                          </td>
+                          <td>
+                            <strong>
+                              {item.item_name}
+                            </strong>
+                          </td>
+                          <td>
+                            <p>
+                              {item.cost}
+                            </p>
+                          </td>
+                          <td>
+                            <p>
+                              {item.duration}
+                            </p>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-danger" id={item.id}
+                              onClick={(e) => this.handleClick(item.id,e)}
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })
+              ) : (
+                <h3>No Results to Display</h3>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="col-xs-4">
+          <form>
+            <label>Item Name</label>
+            <Input
+              value={this.state.item_name}
+              onChange={this.handleInputChange}
+              name="item_name"
+              placeholder="Enter an item name"
+            />
+            <label>Item Cost</label>
+            <Input
+              value={this.state.cost}
+              onChange={this.handleInputChange}
+              name="cost"
+              placeholder="Enter cost of item"
+            />
+            <label>Duration(months)</label>
+            <Input
+              value={this.state.duration}
+              onChange={this.handleInputChange}
+              name="duration"
+              placeholder="Enter duration(months) to pay off"
+            />
+            <FormBtn
+              disabled={!(this.state.cost && this.state.item_name && this.state.duration)}
+              onClick={this.handleFormSubmit}
+            >
+              Submit Goal Item
+            </FormBtn>
+          </form>
+        </div>
       </div>
 
     );
