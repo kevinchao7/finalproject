@@ -1,11 +1,11 @@
 module.exports = (app,db) =>{
   // Read client data
   app.get('/api/client/',(req,res)=>{
-    if (req.user && req.isAuthenticated()){
-      db.clients.findOne({ where : {id : req.user }}).then( (dbResp)=>{ res.json(dbResp) } );
-    }else{
-      res.json({message : 'You are not logged in'});
-    }
+    // if (req.user && req.isAuthenticated()){
+      db.clients.findOne({ where : {id : 2 }}).then( (dbResp)=>{ res.json(dbResp) } );
+    // }else{
+    //   res.json({message : 'You are not logged in'});
+    // }
   });
   // Modify Settings
   app.put('/api/client',(req,res)=>{

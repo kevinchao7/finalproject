@@ -5,10 +5,10 @@ module.exports = (app,db)=> {return {
   createRoutes : (table,route)=>{
     app.get(route,(req,res)=>{
       // Searches for user's fixed costs.
-      console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
-      if (req.user && req.isAuthenticated()) {
+      // console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
+      // if (req.user && req.isAuthenticated()) {
         var query = {};
-        query.clientid = req.user;
+        query.clientid = 2;
         db[table].findAll({
           where: query,
           include: [db.clients]
@@ -16,10 +16,10 @@ module.exports = (app,db)=> {return {
         .then((dbResp)=>{
           res.json(dbResp);
         });
-      }
-      else{
-        ErrorMessage(res);
-      }
+      // }
+      // else{
+      //   ErrorMessage(res);
+      // }
     });
 
     app.delete(route,(req,res)=>{
