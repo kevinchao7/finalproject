@@ -14,6 +14,7 @@ module.exports = (app,db)=> {return {
           include: [db.clients]
         })
         .then((dbResp)=>{
+          console.log(dbResp);
           res.json(dbResp);
         });
       // }
