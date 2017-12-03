@@ -5,40 +5,58 @@ module.exports = (app,db)=> {return {
   createRoutes : (table,route)=>{
     app.get(route,(req,res)=>{
       // Searches for user's fixed costs.
-      // console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
-      var query = {};
-      query.clientId = 2;
-      db[table].findAll({
-        where: query,
-        include: [db.clients]
-      })
-      .then((dbResp)=>{
-        res.json(dbResp);
-      });
+      console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
+      if (req.user && req.isAuthenticated()) {
+        var query = {};
+        query.clientid = req.user;
+        db[table].findAll({
+          where: query,
+          include: [db.clients]
+        })
+        .then((dbResp)=>{
+          res.json(dbResp);
+        });
+      }
+      else{
+        ErrorMessage(res);
+      }
     });
 
     app.delete(route,(req,res)=>{
-      db[table].destroy({ where : { id : req.query.id, clientid : 2 } })
-      .then((dbResp)=>{
-        res.json(dbResp);
-      });
+      if (req.user && req.isAuthenticated()){
+        db[table].destroy({ where : { id : req.params.id, clientid : req.user } })
+        .then((dbResp)=>{
+          res.json(dbResp);
+        });
+      }
+      else{
+        ErrorMessage(res);
+      }
     });
 
     app.put(route,(req,res)=>{
-      db[table].update(req.body, { where : { id : req.id, clientid : 2 } })
-      .then((dbResp)=>{
-        dbTrigger(db,req);
-        res.json(dbResp);
-      });
+      if(req.user && req.isAuthenticated()){
+        db[table].update(req.body, { where : { id : req.params.id, clientid : req.user } })
+        .then((dbResp)=>{
+          dbTrigger(db,req);
+          res.json(dbResp);
+        });
+      }else{
+        ErrorMessage(res);
+      }
     });
 
     app.post(route,(req,res)=>{
-      const newItem = req.body;
-      newItem.clientid = 2;
-      db[table].create(newItem).then((dbResp)=>{
-        dbTrigger(db,req);
-        res.json(dbResp);
-      });
+      if(req.user && req.isAuthenticated()){
+        const newItem = req.body;
+        newItem.clientid = req.user;
+        db[table].create(newItem).then((dbResp)=>{
+          dbTrigger(db,req);
+          res.json(dbResp);
+        });
+      }else{
+        ErrorMessage(res);
+      }
     });
   }
 }};
