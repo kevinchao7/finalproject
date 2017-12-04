@@ -14,7 +14,7 @@ const App = () =>
     <div className = "container">
       <Navbar />
       <Wrapper>
-        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/" component={Login} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/fixedcost" component={FixedCost} />
         <Route exact path="/flexspend" component={FlexSpend} />

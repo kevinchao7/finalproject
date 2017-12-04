@@ -1,8 +1,8 @@
 const emailAPI = require('./email_api.js');
-// module.exports = (app,db,passport)=>{
-  // const costAPI = require('./costAPI_route.js')(app,db,passport);
-module.exports = (app,db)=>{
-  const costAPI = require('./costAPI_route.js')(app,db);
+module.exports = (app,db,passport)=>{
+  const costAPI = require('./costAPI_route.js')(app,db,passport);
+// module.exports = (app,db)=>{
+  // const costAPI = require('./costAPI_route.js')(app,db);
 
   costAPI.createRoutes('fixedcosts' , '/api/fixedcost');
   costAPI.createRoutes('flexspend'  , '/api/flexspend');
@@ -10,9 +10,9 @@ module.exports = (app,db)=>{
 
   require('./client_route.js')(app,db);
 
-  // app.get('/auth/google', passport.authenticate('google', { scope : ['profile','email'] } ) );
-  // app.get('/auth/google/callback', passport.authenticate('google',{ successRedirect : '/',  failureRedirect : '/'} )
-  // );
+  app.get('/auth/google', passport.authenticate('google', { scope : ['profile','email'] } ) );
+  app.get('/auth/google/callback', passport.authenticate('google',{ successRedirect : '/dashboard',  failureRedirect : '/'})
+  );
 
   // app.get('/auth/google', passport.authenticate('google', { scope : ['profile','email'] } ) );
   // app.get('/auth/google/callback', passport.authenticate('google',{ successRedirect : '/#!/app/dashboard', failureRedirect : '/#!/page/login'} )
