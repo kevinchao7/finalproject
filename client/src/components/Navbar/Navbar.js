@@ -19,7 +19,7 @@ const Navbar = props =>
               : ""
           }
         >
-          <Link to="/">Dashboard</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </li>
         <li
           className={window.location.pathname === "/fixedcost" ? "active" : ""}
