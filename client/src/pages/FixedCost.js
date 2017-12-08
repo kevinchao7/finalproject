@@ -68,7 +68,7 @@ class FixedCost extends Component {
         clientId: 2
       }
       API.saveFixedData(tmpObj).then((resp)=>{
-        console.log(resp);
+        // console.log(resp);
         this.setState({
           cost : '',
           item_name:''
@@ -126,7 +126,7 @@ class FixedCost extends Component {
                           </td>
                           <td>
                             <button
-                              className="btn btn-danger" id={item.id}
+                              className="btn btn-danger"
                               onClick={(e) => this.handleClick(item.id,e)}
                             >
                               Remove
