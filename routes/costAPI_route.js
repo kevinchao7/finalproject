@@ -16,6 +16,9 @@ module.exports = (app,db)=> {return {
         .then((dbResp)=>{
           // console.log(dbResp);
           res.json(dbResp);
+        }).catch((err)=>{
+          console.log(err);
+          res.status(500).end();
         });
       }
       else{
@@ -28,6 +31,9 @@ module.exports = (app,db)=> {return {
         db[table].destroy({ where : { id : req.params.id, clientid : req.user } })
         .then((dbResp)=>{
           res.json(dbResp);
+        }).catch((err)=>{
+          console.log(err);
+          res.status(500).end();
         });
       }
       else{
@@ -39,8 +45,11 @@ module.exports = (app,db)=> {return {
       if(req.user && req.isAuthenticated()){
         db[table].update(req.body, { where : { id : req.params.id, clientid : req.user } })
         .then((dbResp)=>{
-          dbTrigger(db,req);
+          // dbTrigger(db,req);
           res.json(dbResp);
+        }).catch((err)=>{
+          console.log(err);
+          res.status(500).end();
         });
       }else{
         ErrorMessage(res);
@@ -52,8 +61,11 @@ module.exports = (app,db)=> {return {
         const newItem = req.body;
         newItem.clientid = req.user;
         db[table].create(newItem).then((dbResp)=>{
-          dbTrigger(db,req);
+          // dbTrigger(db,req);
           res.json(dbResp);
+        }).catch((err)=>{
+          console.log(err);
+          res.status(500).end();
         });
       }else{
         ErrorMessage(res);
