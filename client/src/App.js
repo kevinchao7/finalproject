@@ -13,9 +13,8 @@ class App extends Component {
   state = {
   }
   componentDidMount() {
-    if(this.state.id){
       this.loadAPP();
-    }
+    
   }
   loadAPP = () => {
     API.getData().then((resp)=>{
@@ -31,7 +30,7 @@ class App extends Component {
     API.getData().then((resp)=>{this.setState(
       {client_name : resp.data.client_name, income: parseFloat(resp.data.monthly_income),'client_id':resp.data.id}
       )
-      console.log(resp.data.monthly_income);
+      console.log(resp.data.id);
     });
   };
     render() {
