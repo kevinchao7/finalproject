@@ -13,13 +13,7 @@ module.exports = (app,db,passport)=>{
   require('./client_route.js')(app,db);
 
   app.get('/auth/google', passport.authenticate('google', { scope : ['profile','email'] } ) );
-  app.get('/auth/google/callback', passport.authenticate('google',{failureRedirect : '/'}),function(req,res){
-    if(req.user || req.session.user){
-      router.use(function(req, res) {
-        res.sendFile(path.join(__dirname, "../client/build/index.html"));
-      });
-    }
-  });
+  app.get('/auth/google/callback', passport.authenticate('google',{failureRedirect : '/', successRedirect:'/dashboard'}));
 
   // app.get('/auth/google', passport.authenticate('google', { scope : ['profile','email'] } ) );
   // app.get('/auth/google/callback', passport.authenticate('google',{ successRedirect : '/#!/app/dashboard', failureRedirect : '/#!/page/login'} )
