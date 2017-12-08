@@ -38,6 +38,7 @@ app.use( passport.initialize());
 app.use( passport.session());
 require("./config/passport.js")( passport, db.clients );
 
+require("./routes/api-routes.js")(app,db,passport);
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
@@ -64,7 +65,6 @@ if (process.env.NODE_ENV === "production") {
 // });
 
 // Import routes and give the server access to them.
-require("./routes/api-routes.js")(app,db,passport);
 // require("./routes/api-routes.js")(app,db);
 
 
