@@ -1,4 +1,6 @@
 const emailAPI = require('./email_api.js');
+const path = require("path");
+const router = require("express").Router();
 module.exports = (app,db,passport)=>{
   const costAPI = require('./costAPI_route.js')(app,db,passport);
 // module.exports = (app,db)=>{
@@ -13,7 +15,9 @@ module.exports = (app,db,passport)=>{
   app.get('/auth/google', passport.authenticate('google', { scope : ['profile','email'] } ) );
   app.get('/auth/google/callback', passport.authenticate('google',{failureRedirect : '/'}),function(req,res){
     if(req.user || req.session.user){
-      return res.redirect('/dashboard');
+      router.use(function(req, res) {
+        res.sendFile(path.join(__dirname, "../client/build/index.html"));
+      });
     }
   });
 
