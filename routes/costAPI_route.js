@@ -28,8 +28,8 @@ module.exports = (app,db)=> {return {
 
     app.delete(route,(req,res)=>{
       if (req.user && req.isAuthenticated()){
-        console.log('deleting ' + req.params.id  + ' by ' + req.user);
-        db[table].destroy({ where : { id : req.params.id, clientid : req.user } })
+        console.log('deleting ' + req.query.id  + ' by ' + req.user);
+        db[table].destroy({ where : { id : req.query.id, clientid : req.user } })
         .then((dbResp)=>{
           res.json(dbResp);
         }).catch((err)=>{
