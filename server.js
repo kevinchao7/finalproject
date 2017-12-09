@@ -1,14 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
-const expressValidator = require('express-validator');
-const cookieParser = require('cookie-parser');
+// const expressValidator = require('express-validator');
+// const cookieParser = require('cookie-parser');
 const keys = require('./config/keys.js');
 const path = require("path");
 
 //auth packages
-const session = require('express-session');
-const passport = require( 'passport' );
+// const session = require('express-session');
+// const passport = require( 'passport' );
 
 const db = require('./models');
 db.sequelize.sync();
@@ -22,23 +22,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
-app.use(expressValidator());
-app.use(cookieParser());
+// app.use(expressValidator());
+// app.use(cookieParser());
 app.use(methodOverride("_method"));
 
 // Passport and Sessions
-app.use(session({
-  secret: keys.session_key, // random generated string
-  resave: false, // save a session when a change occured
-  saveUnitialized: false // create cookies/sessions only when logged in
-}));
+// app.use(session({
+//   secret: keys.session_key, // random generated string
+//   resave: false, // save a session when a change occured
+//   saveUnitialized: false // create cookies/sessions only when logged in
+// }));
 
 
-app.use( passport.initialize());
-app.use( passport.session());
-require("./config/passport.js")( passport, db.clients );
+// app.use( passport.initialize());
+// app.use( passport.session());
+// require("./config/passport.js")( passport, db.clients );
 
-require("./routes/api-routes.js")(app,db,passport);
+// Import routes and give the server access to them.
+require("./routes/api-routes.js")(app,db);
+// require("./routes/api-routes.js")(app,db,passport);
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
@@ -64,8 +66,6 @@ if (process.env.NODE_ENV === "production") {
 //   res.render('index',{});
 // });
 
-// Import routes and give the server access to them.
-// require("./routes/api-routes.js")(app,db);
 
 
 app.listen(PORT, function() {

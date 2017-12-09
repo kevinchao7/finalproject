@@ -8,30 +8,31 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Wrapper from "./components/Wrapper";
+import API from "./utils/API";
 
 class App extends Component {
   state = {
   }
   componentDidMount() {
       this.loadAPP();
-    
+
   }
   loadAPP = () => {
-    API.getData().then((resp)=>{
-      this.setState({income: parseFloat(resp.data.monthly_income)});
-    });
-    API.getFixedData().then((resp)=>{
-      var totalCost = 0.0;
-      resp.data.forEach((value)=>{
-        totalCost += parseFloat(value.cost);
-      });
-      this.setState({fixedCost : totalCost, items: resp.data})
-    });
-    API.getData().then((resp)=>{this.setState(
-      {client_name : resp.data.client_name, income: parseFloat(resp.data.monthly_income),'client_id':resp.data.id}
-      )
-      console.log(resp.data.id);
-    });
+    // API.getData().then((resp)=>{
+    //   this.setState({income: parseFloat(resp.data.monthly_income)});
+    // });
+    // API.getFixedData().then((resp)=>{
+    //   var totalCost = 0.0;
+    //   resp.data.forEach((value)=>{
+    //     totalCost += parseFloat(value.cost);
+    //   });
+    //   this.setState({fixedCost : totalCost, items: resp.data})
+    // });
+    // API.getData().then((resp)=>{this.setState(
+    //   {client_name : resp.data.client_name, income: parseFloat(resp.data.monthly_income),'client_id':resp.data.id}
+    //   )
+    //   console.log(resp.data.id);
+    // });
   };
     render() {
     return(

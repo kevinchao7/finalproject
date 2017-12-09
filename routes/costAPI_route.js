@@ -1,14 +1,15 @@
 const moment = require('moment');
-const emailAPI = require('./email_api.js');
+// const emailAPI = require('./email_api.js');
 
 module.exports = (app,db)=> {return {
   createRoutes : (table,route)=>{
     app.get(route,(req,res)=>{
       // Searches for user's fixed costs.
-      console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
-      if (req.user && req.isAuthenticated()) {
+      // console.log(route + ' requested by User ' + req.user + ' authenticated?=>' + req.isAuthenticated());
+      // if (req.user && req.isAuthenticated()) {
         var query = {};
-        query.clientid = req.user;
+        // query.clientid = req.user;
+        query.clientid = 2;
         db[table].findAll({
           where: query,
           include: [db.clients]
@@ -20,31 +21,33 @@ module.exports = (app,db)=> {return {
           console.log(err);
           res.status(500).end();
         });
-      }
-      else{
-        ErrorMessage(res);
-      }
+      // }
+      // else{
+      //   ErrorMessage(res);
+      // }
     });
 
     app.delete(route,(req,res)=>{
-      if (req.user && req.isAuthenticated()){
+      // if (req.user && req.isAuthenticated()){
         console.log('deleting ' + req.query.id  + ' by ' + req.user);
-        db[table].destroy({ where : { id : req.query.id, clientid : req.user } })
+        // db[table].destroy({ where : { id : req.query.id, clientid : req.user } })
+        db[table].destroy({ where : { id : 2, clientid : req.user } })
         .then((dbResp)=>{
           res.json(dbResp);
         }).catch((err)=>{
           console.log(err);
           res.status(500).end();
         });
-      }
-      else{
-        ErrorMessage(res);
-      }
+      // }
+      // else{
+      //   ErrorMessage(res);
+      // }
     });
 
     app.put(route,(req,res)=>{
-      if(req.user && req.isAuthenticated()){
-        db[table].update(req.body, { where : { id : req.query.id, clientid : req.user } })
+      // if(req.user && req.isAuthenticated()){
+        // db[table].update(req.body, { where : { id : req.query.id, clientid : req.user } })
+        db[table].update(req.body, { where : { id : 2, clientid : req.user } })
         .then((dbResp)=>{
           // dbTrigger(db,req);
           res.json(dbResp);
@@ -52,15 +55,16 @@ module.exports = (app,db)=> {return {
           console.log(err);
           res.status(500).end();
         });
-      }else{
-        ErrorMessage(res);
-      }
+      // }else{
+      //   ErrorMessage(res);
+      // }
     });
 
     app.post(route,(req,res)=>{
-      if(req.user && req.isAuthenticated()){
+      // if(req.user && req.isAuthenticated()){
         const newItem = req.body;
-        newItem.clientid = req.user;
+        // newItem.clientid = req.user;
+        newItem.clientid = 2;
         db[table].create(newItem).then((dbResp)=>{
           // dbTrigger(db,req);
           res.json(dbResp);
@@ -68,9 +72,9 @@ module.exports = (app,db)=> {return {
           console.log(err);
           res.status(500).end();
         });
-      }else{
-        ErrorMessage(res);
-      }
+      // }else{
+      //   ErrorMessage(res);
+      // }
     });
   }
 }};

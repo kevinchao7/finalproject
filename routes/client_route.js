@@ -1,11 +1,14 @@
 module.exports = (app,db) =>{
   // Read client data
   app.get('/api/client/',(req,res)=>{
-    if (req.user && req.isAuthenticated()){
-      db.clients.findOne({ where : {id : req.user }}).then( (dbResp)=>{ res.json(dbResp) } );
-    }else{
-      res.json({message : 'You are not logged in'});
-    }
+    // if (req.user && req.isAuthenticated()){
+      db.clients.findOne({ where : {id : 2 }}).then( (dbResp)=>{ res.json(dbResp) } ).catch((err)=>{
+        console.log(err);
+        res.status(500).end();
+      });
+    // }else{
+    //   res.json({message : 'You are not logged in'});
+    // }
   });
   // Modify Settings
   app.put('/api/client',(req,res)=>{
@@ -19,15 +22,18 @@ module.exports = (app,db) =>{
       },
       {
         where:{ google_id :req.body.id }
-      }).then((resp)=>{ res.redirect('/profile/') });
+      }).then((resp)=>{ res.redirect('/profile/') }).catch((err)=>{
+        console.log(err);
+        res.status(500).end();
+      });
   });
 
-  app.get('/logout/',(req,res)=>{
-    if(req.user && req.isAuthenticated()){
-      req.logout();
-    }
-    res.redirect('/');
-  })
+  // app.get('/logout/',(req,res)=>{
+  //   if(req.user && req.isAuthenticated()){
+  //     req.logout();
+  //   }
+  //   res.redirect('/');
+  // })
   // app.post("/api/client",(req,res)=>{
   //   db.clients.create({
   //     client_name : req.body.name
