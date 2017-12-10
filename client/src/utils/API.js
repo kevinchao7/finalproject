@@ -16,6 +16,10 @@ export default {
     return axios.get('/api/goal');
   },
   // Saves data to the database
+  saveData: function(data) {
+    console.log("hello");
+    return axios.post('/api/client', data);
+  },
   saveFixedData: function(fixedCostData) {
     return axios.post("/api/fixedcost", fixedCostData);
   },

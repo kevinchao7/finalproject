@@ -15,10 +15,10 @@ module.exports = (app,db) =>{
     console.log('Update client: ' + JSON.stringify(req.body,null,4));
     db.clients.update(
       {
-        monthly_income : req.body.income,
-        job_title : req.body.job,
-        phone_number : req.body.cell,
-        current_savings : req.body.saving
+        client_name: req.body.client_name,
+        monthly_income : req.body.monthly_income,
+        job_title : req.body.job_title,
+        current_savings : req.body.current_savings
       },
       {
         where:{ google_id :req.body.id }
@@ -34,14 +34,19 @@ module.exports = (app,db) =>{
   //   }
   //   res.redirect('/');
   // })
-  // app.post("/api/client",(req,res)=>{
-  //   db.clients.create({
-  //     client_name : req.body.name
-  //   }).then((resp)=>{
-  //     res.redirect('/');
-  //   }).catch((err)=>{
-  //     console.log('Error Message: ' + err.errors[0].message);
-  //     res.status(400).redirect('/');
-  //   });
-  // });
+  app.post("/api/client",(req,res)=>{
+    db.clients.update(
+      {
+        client_name: req.body.client_name,
+        monthly_income : req.body.monthly_income,
+        job_title : req.body.job_title,
+        current_savings : req.body.current_savings
+      },
+      {
+        where:{ id :req.body.id }
+      }).then((resp)=>{ res.redirect('/profile/') }).catch((err)=>{
+        console.log(err);
+        res.status(500).end();
+      });
+  });
 }

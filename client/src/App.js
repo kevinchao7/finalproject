@@ -5,6 +5,8 @@ import FlexSpend from "./pages/FlexSpend";
 import Goals from "./pages/Goals";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Settings from "./pages/Settings";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Wrapper from "./components/Wrapper";
@@ -45,6 +47,8 @@ class App extends Component {
             <Route exact path="/fixedcost" component={FixedCost} />
             <Route exact path="/flexspend" component={FlexSpend} />
             <Route exact path="/goal" component={Goals} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/settings" component={Settings} />
           </Wrapper>
           <Footer />
         </div>

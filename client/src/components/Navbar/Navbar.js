@@ -36,6 +36,11 @@ const Navbar = props =>
         >
           <Link to="/goal">Financial Goals</Link>
         </li>
+        <li
+          className={window.location.pathname === "/settings" ? "active" : ""}
+        >
+          <Link to="/settings">Settings</Link>
+        </li>
       </ul>
     </div>
   </nav>;
