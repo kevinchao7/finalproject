@@ -42,6 +42,11 @@ module.exports = (sequelize, DataTypes)=>{
     current_savings :
     {
       type : DataTypes.DECIMAL(12,4)
+    },
+
+    minimum_savings :
+    {
+      type : DataTypes.DECIMAL(12,4)
     }
   });
 

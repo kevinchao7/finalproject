@@ -46,7 +46,8 @@ class Settings extends Component {
       this.setState({income: parseFloat(resp.data.monthly_income),
                      client_id: resp.data.id,
                      client_name: resp.data.client_name,
-                     job_title: resp.data.job_title}
+                     job_title: resp.data.job_title,
+                     minimum_savings: resp.data.minimum_savings}
                    );
     });
     API.getFixedData().then((resp)=>{
@@ -152,19 +153,19 @@ class Settings extends Component {
               name="job_title"
               placeholder="Enter Job Title"
             />
-            <label>Monthly Income?</label>
+            <label>Monthly Income After Taxes:</label>
             <Input
-              value={this.state.income}
+              value={parseFloat(this.state.income).toFixed(2)}
               onChange={this.handleInputChange}
               name="income"
               placeholder="Enter amount"
             />
-            <strong>Spend on following:</strong>
+            <strong>Your Monthly Recurring Costs:</strong>
             <div Class="row">
               <div Class="col-md-3">
                 <label>Rent</label>
                 <Input
-                  value={this.state.rent}
+                  value={parseFloat(this.state.rent).toFixed(2)}
                   onChange={this.handleInputChange}
                   name="rent"
                   placeholder="Enter amount"
@@ -173,7 +174,7 @@ class Settings extends Component {
               <div Class="col-md-3">
                 <label>Utilities</label>
                 <Input
-                  value={this.state.utilities}
+                  value={parseFloat(this.state.utilities).toFixed(2)}
                   onChange={this.handleInputChange}
                   name="utilities"
                   placeholder="Enter amount"
@@ -181,7 +182,7 @@ class Settings extends Component {
               </div>
               <div Class="col-md-3"><label>Groceries</label>
                 <Input
-                  value={this.state.groceries}
+                  value={parseFloat(this.state.groceries).toFixed(2)}
                   onChange={this.handleInputChange}
                   name="groceries"
                   placeholder="Enter amount"
@@ -189,22 +190,22 @@ class Settings extends Component {
               </div>
               <div Class="col-md-3"><label>Other Fixed Costs</label>
                 <Input
-                  value={this.state.other}
+                  value={parseFloat(this.state.other).toFixed(2)}
                   onChange={this.handleInputChange}
                   name="other"
                   placeholder="Enter amount"
                 />
               </div>
             </div>
-            <label>Savings per month:</label>
+            <label>Minimum amount you like to save per month:</label>
             <Input
-              value={this.state.savings}
+              value={parseFloat(this.state.minimum_savings).toFixed(2)}
               onChange={this.handleInputChange}
-              name="savings"
+              name="minimum_savings"
               placeholder="Enter amount"
             />
             <FormBtn
-              disabled={!(this.state.client_name && this.state.savings && this.state.income)}
+              disabled={!(this.state.client_name && this.state.minimum_savings && this.state.income)}
               onClick={this.handleFormSubmit}
             >
               Submit Fixed Cost Item

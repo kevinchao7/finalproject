@@ -86,6 +86,7 @@ class Goals extends Component {
   };
 
   handleDeleteRequest(itemID, event){
+    event.preventDefault();
     API.deleteGoalData(itemID).then((resp)=>{
       this.loadGoals();
     }).catch((err)=>{
@@ -93,20 +94,45 @@ class Goals extends Component {
     })
   }
 
-  handleTransferRequest(itemID){
+  handleTransferRequest(itemID,event){
+    event.preventDefault();
     this.state.items.forEach((resp)=>{
       if(resp.id === itemID){
         this.setState({
           transferName: resp.item_name,
-          transferInvestedFunds: resp.total_invested
+          transferInvestedFunds: resp.total_invested,
+          transferID: itemID
         })
       }
     });
   }
 
+  handleTransferForm = event => {
+    event.preventDefault();
+    const selection = document.getElementById('transfer_list');
+    const selectedItemID = selection.options[selection.selectedIndex].value;
+    var selectedItem = {};
+    var transferItem = {};
+
+    this.state.items.forEach((resp,index)=>{
+      if(resp.id === selectedItemID){
+        selectedItem = this.state.items[index];
+      }else if (resp.id === this.state.transferID){
+        transferItem = this.state.items[index]
+      }
+    })
+
+    if (transferItem.total_invested < this.state.transfer_amount){
+      console.log('Insufficient Funds');
+    }else {
+      console.log('Sufficient Funds');
+    }
+  }
+
+
   render() {
 
-    var goalPercent = (this.state.goals / this.state.income * 100).toFixed(2);
+    const goalPercent = (this.state.goals / this.state.income * 100).toFixed(2);
 
     return (
 
