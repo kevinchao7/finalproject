@@ -55,7 +55,7 @@ class Dashboard extends Component {
             type: 'pie'
         },
         title: {
-            text: 'Monthly Budget'
+            text: ''
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -126,6 +126,7 @@ class Dashboard extends Component {
             <Col size="md-12">
 
               <div className="col-xs-12">
+                <h3 className='text-center'>Welcome to Up To Budget, Start Saving with the 50-20-30 Principle</h3>
                 <h1>{this.state.client_name}</h1>
                 <h4>{this.state.job_title}</h4>
                 <div className="large progress">
@@ -137,10 +138,10 @@ class Dashboard extends Component {
               </div>
               <center>
                 <Legend horizontal data={[
-                  {key: 'Fixed'},
-                  {key: 'Flexible Spending'},
-                  {key: 'Financial Goals'},
-                  {key: 'Savings'}
+                  {key: 'Fixed - ' + fixedPercentage.toFixed(0)+"%"},
+                  {key: 'Flexible Spending - ' + flexPercentage.toFixed(0)+"%"},
+                  {key: 'Financial Goals - ' + goalsPercentage.toFixed(0)+"%"},
+                  {key: 'Savings - ' + savingsPercentage.toFixed(0)+"%"}
                 ]} dataId={'key'} config={config} />
               </center>
               <div id="piechart"></div>
