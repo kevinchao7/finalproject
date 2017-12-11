@@ -4,6 +4,9 @@ import Row from "../components/Row";
 import Col from "../components/Col";
 import API from "../utils/API";
 import {BarChart, Legend} from 'react-easy-chart';
+// Load Highcharts
+// Load Highcharts
+var Highcharts = require('highcharts');
 
 
 class Dashboard extends Component {
@@ -40,7 +43,64 @@ class Dashboard extends Component {
       });
       this.setState({goals : goal})
     });
+
+    this.runCharts();
   }
+  runCharts = () => {
+    Highcharts.chart('piechart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Monthly Budget'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'IE',
+                y: 56.33
+            }, {
+                name: 'Chrome',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Firefox',
+                y: 10.38
+            }, {
+                name: 'Safari',
+                y: 4.77
+            }, {
+                name: 'Opera',
+                y: 0.91
+            }, {
+                name: 'Other',
+                y: 0.2
+            }]
+        }]
+    });
+  }
+
 
   render(){
     function calcPercent(cost,income){
@@ -83,8 +143,9 @@ class Dashboard extends Component {
                   {key: 'Savings'}
                 ]} dataId={'key'} config={config} />
               </center>
+              <div id="piechart"></div>
               <div className="col-xs-12">
-                <h3>Monthly Income: <b>${this.state.income}</b></h3>
+                <h3>Post-Tax Monthly Income: <b>${this.state.income}</b></h3>
                 <h3>Fixed Costs: <b>${this.state.fixedCost}</b></h3>
                 <h3>Flexible Spending: <b>${this.state.flexSpend}</b></h3>
                 <h3>Financial Goals: <b>${parseInt(this.state.goals)}</b></h3>

@@ -141,6 +141,10 @@ class Goals extends Component {
       // <p>Fixed Cost Percentage: {fixedPercent}</p>
       <div>
         <p>Financial Goal Percent: {goalPercent}%</p>
+        <div class="progress">
+          <div className={(goalPercent > 15 ) ? "progress-bar progress-bar-danger progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={goalPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(goalPercent)/20)*100)+'%'}}>
+          </div>
+        </div>
         <div className="col-xs-8">
           <table className="table">
             <thead>
