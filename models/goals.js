@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes)=>{
       type : DataTypes.BOOLEAN,
       defaultValue : false
     },
-    duration :
+    monthly_recurring :
+    {
+      type : DataTypes.INTEGER
+    },
+    total_invested :
     {
       type : DataTypes.INTEGER
     }

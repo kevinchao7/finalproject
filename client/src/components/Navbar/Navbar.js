@@ -8,7 +8,7 @@ const Navbar = props =>
     <div className="container-fluid">
       <div className="navbar-header">
         <Link className="navbar-brand" to="/">
-          FBA
+          UTB
         </Link>
       </div>
       <ul className="nav navbar-nav">
@@ -21,11 +21,11 @@ const Navbar = props =>
         >
           <Link to="/dashboard">Dashboard</Link>
         </li>
-        <li
+        {/* <li
           className={window.location.pathname === "/fixedcost" ? "active" : ""}
         >
           <Link to="/fixedcost">Fixed Costs</Link>
-        </li>
+        </li> */}
         <li
           className={window.location.pathname === "/flexspend" ? "active" : ""}
         >

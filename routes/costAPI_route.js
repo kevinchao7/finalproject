@@ -29,9 +29,9 @@ module.exports = (app,db)=> {return {
 
     app.delete(route,(req,res)=>{
       // if (req.user && req.isAuthenticated()){
-        console.log('deleting ' + req.query.id  + ' by ' + req.user);
+        // console.log('deleting ' + req.query.id  + ' by ' + req.user);
         // db[table].destroy({ where : { id : req.query.id, clientid : req.user } })
-        db[table].destroy({ where : { id : 2, clientid : req.user } })
+        db[table].destroy({ where : { id : req.query.id, clientid : 2 } })
         .then((dbResp)=>{
           res.json(dbResp);
         }).catch((err)=>{

@@ -73,12 +73,12 @@ class Signup extends Component {
         this.state.client_name &&
         this.state.savings &&
         this.state.income) {
-      
+
       var tmpObj = {
         client_name : this.state.client_name,
         monthly_income : this.state.income,
-        job_title : parseFloat(this.state.rent) + 
-                    parseFloat(this.state.utilities) + 
+        job_title : parseFloat(this.state.rent) +
+                    parseFloat(this.state.utilities) +
                     parseFloat(this.state.groceries) +
                     parseFloat(this.state.other),
         current_savings : this.state.savings,

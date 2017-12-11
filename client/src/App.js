@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import FixedCost from "./pages/FixedCost";
+// import FixedCost from "./pages/FixedCost";
 import FlexSpend from "./pages/FlexSpend";
 import Goals from "./pages/Goals";
 import Dashboard from "./pages/Dashboard";
@@ -44,7 +44,7 @@ class App extends Component {
           <Wrapper>
             <Route exact path="/" component={Login} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/fixedcost" component={FixedCost} />
+            {/* <Route exact path="/fixedcost" component={FixedCost} /> */}
             <Route exact path="/flexspend" component={FlexSpend} />
             <Route exact path="/goal" component={Goals} />
             <Route exact path="/signup" component={Signup} />

@@ -3,7 +3,7 @@ import "./Footer.css";
 
 const Footer = () =>
   <footer className="footer">
-    <span>Financial Budget App © 2017</span>
+    <span>Up To Budget © 2017</span>
   </footer>;
 
 export default Footer;

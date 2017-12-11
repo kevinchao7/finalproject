@@ -123,7 +123,7 @@ class FlexSpend extends Component {
                           </td>
                           <td>
                             <p>
-                              {item.cost}
+                              ${item.cost}
                             </p>
                           </td>
                           <td>

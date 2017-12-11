@@ -45,13 +45,16 @@ class Settings extends Component {
     API.getData().then((resp)=>{
       this.setState({income: parseFloat(resp.data.monthly_income),
                      client_id: resp.data.id,
-                     client_name: resp.data.client_name}
+                     client_name: resp.data.client_name,
+                     job_title: resp.data.job_title}
                    );
     });
     API.getFixedData().then((resp)=>{
       var totalCost = 0.0;
+      var tmpObj = {};
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
+        this.setState({ [value.item_name] : value.cost });
       });
       this.setState({fixedCost : totalCost, items: resp.data})
     });
@@ -73,19 +76,44 @@ class Settings extends Component {
         this.state.client_name &&
         this.state.savings &&
         this.state.income) {
-      
+
       var tmpObj = {
         client_name : this.state.client_name,
         monthly_income : this.state.income,
-        job_title : parseFloat(this.state.rent) + 
-                    parseFloat(this.state.utilities) + 
-                    parseFloat(this.state.groceries) +
-                    parseFloat(this.state.other),
+        job_title : this.state.job_title,
         current_savings : this.state.savings,
         id: 2
-      }
+      };
+      var fixedCostArr = [
+        {
+          name: 'rent',
+          cost: parseFloat(this.state.rent)
+        },
+        {
+          name: 'utilities',
+          cost: parseFloat(this.state.utilities)
+        },
+        {
+          name: 'groceries',
+          cost: parseFloat(this.state.groceries)
+        },
+        {
+          name: 'other',
+          cost: parseFloat(this.state.other)
+        }
+      ];
+
+      fixedCostArr.forEach((resp)=>{
+        var tmpFixedObj = {
+          cost : resp.cost,
+          item_name : resp.name,
+          clientId: 2
+        }
+        API.saveFixedData(tmpFixedObj).then((resp)=>{
+        }).catch(e => {throw e});
+      });
+
       API.saveData(tmpObj).then((resp)=>{
-        // console.log(resp);
         this.loadFixedCosts();
       }).catch((err)=>{throw err});
     }
@@ -101,7 +129,7 @@ class Settings extends Component {
 
   render() {
 
-    var fixedPercent = (this.state.fixedCost / this.state.income * 100).toFixed(2);
+    // var fixedPercent = (this.state.fixedCost / this.state.income * 100).toFixed(2);
     return (
 
       // <p>Monthly Income: {this.state.income}</p>
@@ -116,6 +144,13 @@ class Settings extends Component {
               onChange={this.handleInputChange}
               name="client_name"
               placeholder="Enter Name"
+            />
+            <label>Job Title</label>
+            <Input
+              value={this.state.job_title}
+              onChange={this.handleInputChange}
+              name="job_title"
+              placeholder="Enter Job Title"
             />
             <label>Monthly Income?</label>
             <Input
