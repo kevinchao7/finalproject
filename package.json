@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "Sern Demo",
   "main": "server.js",
+  "eslintConfig": {
+        "env": {
+            "browser": true,
+            "commonjs": true,
+            "es6": true,
+            "jquery": true
+        }
+  },
   "scripts": {
     "server": "node server.js",
     "client": "node scripts/start-client.js",
@@ -29,6 +37,7 @@
     "express-session": "^1.15.6",
     "express-validator": "^4.2.1",
     "highcharts": "^6.0.3",
+    "jquery": "^3.2.1",
     "method-override": "^2.3.10",
     "moment": "^2.19.1",
     "mysql": "^2.10.2",

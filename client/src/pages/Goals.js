@@ -5,6 +5,7 @@ import GoalListItems from "../components/GoalListItems";
 import API from "../utils/API";
 import { Input, FormBtn, DropDownList } from "../components/Form";
 import { Link } from "react-router-dom";
+import $ from 'jquery';
 
 class Goals extends Component {
   state = {
@@ -113,20 +114,36 @@ class Goals extends Component {
     const selectedItemID = selection.options[selection.selectedIndex].value;
     var selectedItem = {};
     var transferItem = {};
-
     this.state.items.forEach((resp,index)=>{
-      if(resp.id === selectedItemID){
+      console.log(resp.id);
+      if(resp.id === parseInt(selectedItemID)){
         selectedItem = this.state.items[index];
-      }else if (resp.id === this.state.transferID){
+      }else if (resp.id === parseInt(this.state.transferID)){
         transferItem = this.state.items[index]
       }
     })
 
-    if (transferItem.total_invested < this.state.transfer_amount){
+    if (parseFloat(transferItem.total_invested) < parseFloat(this.state.transfer_amount)){
       console.log('Insufficient Funds');
+      alert('Insufficient Funds!');
     }else {
-      console.log('Sufficient Funds');
+      API.updateGoalData({
+        clientId:2,
+        id:selectedItem.id,
+        total_invested:parseFloat(selectedItem.total_invested)+parseFloat(this.state.transfer_amount)
+      }).then((resp)=>{}).catch((e)=>{throw e});
+
+      API.updateGoalData({
+        clientId:2,
+        id:transferItem.id,
+        total_invested:parseFloat(transferItem.total_invested)-parseFloat(this.state.transfer_amount)
+      }).then((resp)=>{}).catch((e)=>{throw e});
+      console.log('Sufficient Funds transfer_id:'+transferItem.id+', selectedItemID:' +selectedItemID);
+      console.log(selectedItem);
+      console.log(transferItem);
+      this.loadGoals();
     }
+    $('#exampleModal .close').click();
   }
 
 
@@ -249,7 +266,7 @@ class Goals extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h3 className="modal-title text-center" id="exampleModalLabel">Transfering Invested Goal Funds</h3>
+                <h3 className="modal-title text-center" id="exampleModalLabel">Transferring Invested Goal Funds</h3>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -267,7 +284,7 @@ class Goals extends Component {
                     placeholder="Enter amount to transfer"
                   />
                   <div>
-                    <GoalListItems items={this.state.items} />
+                    <GoalListItems items={this.state.items} id={this.state.transferID}/>
                   </div>
                   <div Style="overflow: auto">
                     <FormBtn

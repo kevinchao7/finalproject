@@ -15,6 +15,9 @@ export default {
   getGoalData: function() {
     return axios.get('/api/goal');
   },
+  updateGoalData: function(data) {
+    return axios.put('/api/goal',data);
+  },
   // Saves data to the database
   saveData: function(data) {
     return axios.post('/api/client', data);

@@ -138,10 +138,10 @@ class Dashboard extends Component {
               </div>
               <center>
                 <Legend horizontal data={[
-                  {key: 'Fixed - ' + fixedPercentage.toFixed(0)+"%"},
-                  {key: 'Flexible Spending - ' + flexPercentage.toFixed(0)+"%"},
-                  {key: 'Financial Goals - ' + goalsPercentage.toFixed(0)+"%"},
-                  {key: 'Savings - ' + savingsPercentage.toFixed(0)+"%"}
+                  {key: 'Fixed - ' + fixedPercentage.toFixed(1)+"%"},
+                  {key: 'Flexible Spending - ' + flexPercentage.toFixed(1)+"%"},
+                  {key: 'Financial Goals - ' + goalsPercentage.toFixed(1)+"%"},
+                  {key: 'Savings - ' + savingsPercentage.toFixed(1)+"%"}
                 ]} dataId={'key'} config={config} />
               </center>
               <div id="piechart"></div>
