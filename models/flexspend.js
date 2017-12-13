@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes)=>{
   const flexspend = sequelize.define('flexspend',{
     cost :
     {
-      type : DataTypes.DECIMAL(12,4)
+      type : DataTypes.DECIMAL(12,2)
     },
     item_name : {
       type : DataTypes.STRING

@@ -14,6 +14,10 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
+    this.loadDashboard();
+  }
+
+  loadDashboard = () => {
     API.getData().then((resp)=>{this.setState(
       {client_name : resp.data.client_name, income: parseFloat(resp.data.monthly_income), job_title : resp.data.job_title}
       )
@@ -47,23 +51,8 @@ class Dashboard extends Component {
       this.runCharts();
     }).catch((e) => {throw e});
   }
-  runCharts = () => {
 
-    Highcharts.setOptions({
-      colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
-        return {
-          radialGradient: {
-            cx: 0.5,
-            cy: 0.3,
-            r: 0.7
-          },
-          stops: [
-            [0, color],
-            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-          ]
-        };
-      })
-    });
+  runCharts = () => {
 
     Highcharts.chart('piechart', {
         chart: {
@@ -110,6 +99,25 @@ class Dashboard extends Component {
             }]
         }]
     });
+
+    // Highcharts.setOptions({
+    //   colors: Highcharts.map(Highcharts.getOptions().colors, (color)=>{
+    //     return {
+    //       radialGradient: {
+    //         cx: 0.5,
+    //         cy: 0.3,
+    //         r: 0.7
+    //       },
+    //       stops: [
+    //         [0, color],
+    //         [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+    //       ]
+    //     };
+    //   })
+    // });
+
+    // console.log(Highcharts.getOptions().colors);
+
   }
 
   calcPercent = (cost,income) => {

@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes)=>{
   const goals = sequelize.define('goals',{
     cost :
     {
-      type : DataTypes.DECIMAL(12,4)
+      type : DataTypes.DECIMAL(12,2)
     },
     item_name :
     {

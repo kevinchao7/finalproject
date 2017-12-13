@@ -155,7 +155,7 @@ class Settings extends Component {
             />
             <label>Monthly Income After Taxes:</label>
             <Input
-              value={parseFloat(this.state.income).toFixed(2)}
+              value={this.state.income}
               onChange={this.handleInputChange}
               name="income"
               placeholder="Enter amount"
@@ -165,7 +165,7 @@ class Settings extends Component {
               <div Class="col-md-3">
                 <label>Rent</label>
                 <Input
-                  value={parseFloat(this.state.rent).toFixed(2)}
+                  value={this.state.rent}
                   onChange={this.handleInputChange}
                   name="rent"
                   placeholder="Enter amount"
@@ -174,7 +174,7 @@ class Settings extends Component {
               <div Class="col-md-3">
                 <label>Utilities</label>
                 <Input
-                  value={parseFloat(this.state.utilities).toFixed(2)}
+                  value={this.state.utilities}
                   onChange={this.handleInputChange}
                   name="utilities"
                   placeholder="Enter amount"
@@ -182,7 +182,7 @@ class Settings extends Component {
               </div>
               <div Class="col-md-3"><label>Groceries</label>
                 <Input
-                  value={parseFloat(this.state.groceries).toFixed(2)}
+                  value={this.state.groceries}
                   onChange={this.handleInputChange}
                   name="groceries"
                   placeholder="Enter amount"
@@ -190,7 +190,7 @@ class Settings extends Component {
               </div>
               <div Class="col-md-3"><label>Other Fixed Costs</label>
                 <Input
-                  value={parseFloat(this.state.other).toFixed(2)}
+                  value={this.state.other}
                   onChange={this.handleInputChange}
                   name="other"
                   placeholder="Enter amount"
@@ -199,7 +199,7 @@ class Settings extends Component {
             </div>
             <label>Minimum amount you like to save per month:</label>
             <Input
-              value={parseFloat(this.state.minimum_savings).toFixed(2)}
+              value={this.state.minimum_savings}
               onChange={this.handleInputChange}
               name="minimum_savings"
               placeholder="Enter amount"
