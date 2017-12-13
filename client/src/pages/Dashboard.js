@@ -20,7 +20,7 @@ class Dashboard extends Component {
       console.log(resp.data.monthly_income);
     });
 
-    API.getFixedData().then((resp)=>{
+    const p1 = API.getFixedData().then((resp)=>{
       var totalCost = 0.0;
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
@@ -28,7 +28,7 @@ class Dashboard extends Component {
       this.setState({fixedCost : totalCost})
     });
 
-    API.getFlexData().then((resp)=>{
+    const p2 = API.getFlexData().then((resp)=>{
       var totalCost = 0.0;
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
@@ -36,15 +36,16 @@ class Dashboard extends Component {
       this.setState({flexSpend : totalCost})
     });
 
-    API.getGoalData().then((resp)=>{
+    const p3 = API.getGoalData().then((resp)=>{
       var goal = 0.0;
       resp.data.forEach((value)=>{
         goal += parseFloat(value.monthly_recurring);
       });
       this.setState({goals : goal})
     });
-
-    this.runCharts();
+    Promise.all([p1, p2, p3]).then(values => {
+      this.runCharts();
+    }).catch((e) => {throw e});
   }
   runCharts = () => {
     Highcharts.chart('piechart', {
@@ -77,28 +78,24 @@ class Dashboard extends Component {
             name: 'Brands',
             colorByPoint: true,
             data: [{
-                name: 'IE',
-                y: 56.33
+                name: 'Fixed Costs',
+                y: parseInt(this.calcPercent(this.state.fixedCost,this.state.income))
             }, {
-                name: 'Chrome',
-                y: 24.03,
-                sliced: true,
-                selected: true
+                name: 'Flexible Spendings',
+                y: this.calcPercent(this.state.flexSpend,this.state.income)
             }, {
-                name: 'Firefox',
-                y: 10.38
+                name: 'Financial Goals',
+                y: this.calcPercent(this.state.goals,this.state.income)
             }, {
-                name: 'Safari',
-                y: 4.77
-            }, {
-                name: 'Opera',
-                y: 0.91
-            }, {
-                name: 'Other',
-                y: 0.2
+                name: 'Savings',
+                y: this.calcPercent(this.state.income - this.state.fixedCost - this.state.flexSpend -this.state.goals,this.state.income)
             }]
         }]
     });
+  }
+
+  calcPercent = (cost,income) => {
+    return cost / income * 100;
   }
 
 
@@ -129,24 +126,24 @@ class Dashboard extends Component {
                 <h3 className='text-center'>Welcome to Up To Budget, Start Saving with the 50-20-30 Principle</h3>
                 <h1>{this.state.client_name}</h1>
                 <h4>{this.state.job_title}</h4>
-                <div className="large progress">
+                {/* <div className="large progress">
                   <div className="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" style={{"width":fixedPercentage+"%" }} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                   <div className="progress-bar progress-bar-striped progress-bar-info" role="progressbar" style={{"width":flexPercentage+"%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   <div className="progress-bar progress-bar-striped progress-bar-warning" role="progressbar" style={{"width":goalsPercentage+"%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   <div className="progress-bar progress-bar-striped progress-bar-success" role="progressbar" style={{"width":savingsPercentage+"%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                </div> */}
               </div>
-              <center>
+              {/* <center>
                 <Legend horizontal data={[
                   {key: 'Fixed - ' + fixedPercentage.toFixed(1)+"%"},
                   {key: 'Flexible Spending - ' + flexPercentage.toFixed(1)+"%"},
                   {key: 'Financial Goals - ' + goalsPercentage.toFixed(1)+"%"},
                   {key: 'Savings - ' + savingsPercentage.toFixed(1)+"%"}
                 ]} dataId={'key'} config={config} />
-              </center>
+              </center> */}
               <div id="piechart"></div>
               <div className="col-xs-12">
-                <h3>Post-Tax Monthly Income: <b>${this.state.income}</b></h3>
+                <h3>Monthly Income: <b>${this.state.income}</b></h3>
                 <h3>Fixed Costs: <b>${this.state.fixedCost}</b></h3>
                 <h3>Flexible Spending: <b>${this.state.flexSpend}</b></h3>
                 <h3>Financial Goals: <b>${parseInt(this.state.goals)}</b></h3>
