@@ -48,6 +48,23 @@ class Dashboard extends Component {
     }).catch((e) => {throw e});
   }
   runCharts = () => {
+
+    Highcharts.setOptions({
+      colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+          radialGradient: {
+            cx: 0.5,
+            cy: 0.3,
+            r: 0.7
+          },
+          stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+          ]
+        };
+      })
+    });
+
     Highcharts.chart('piechart', {
         chart: {
             plotBackgroundColor: null,
@@ -76,6 +93,7 @@ class Dashboard extends Component {
         },
         series: [{
             name: 'Brands',
+            innerSize:70,
             colorByPoint: true,
             data: [{
                 name: 'Fixed Costs',
@@ -123,24 +141,10 @@ class Dashboard extends Component {
             <Col size="md-12">
 
               <div className="col-xs-12">
-                <h3 className='text-center'>Welcome to Up To Budget, Start Saving with the 50-20-30 Principle</h3>
+                <h3 className='text-center'>Welcome to Up 2 Budget, Start Saving with the 50-20-30 Principle</h3>
                 <h1>{this.state.client_name}</h1>
                 <h4>{this.state.job_title}</h4>
-                {/* <div className="large progress">
-                  <div className="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" style={{"width":fixedPercentage+"%" }} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div className="progress-bar progress-bar-striped progress-bar-info" role="progressbar" style={{"width":flexPercentage+"%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div className="progress-bar progress-bar-striped progress-bar-warning" role="progressbar" style={{"width":goalsPercentage+"%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div className="progress-bar progress-bar-striped progress-bar-success" role="progressbar" style={{"width":savingsPercentage+"%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                </div> */}
               </div>
-              {/* <center>
-                <Legend horizontal data={[
-                  {key: 'Fixed - ' + fixedPercentage.toFixed(1)+"%"},
-                  {key: 'Flexible Spending - ' + flexPercentage.toFixed(1)+"%"},
-                  {key: 'Financial Goals - ' + goalsPercentage.toFixed(1)+"%"},
-                  {key: 'Savings - ' + savingsPercentage.toFixed(1)+"%"}
-                ]} dataId={'key'} config={config} />
-              </center> */}
               <div id="piechart"></div>
               <div className="col-xs-12">
                 <h3>Monthly Income: <b>${this.state.income}</b></h3>

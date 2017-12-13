@@ -8,7 +8,7 @@ const Navbar = props =>
     <div className="container-fluid">
       <div className="navbar-header">
         <Link className="navbar-brand" to="/">
-          UTB
+          <img src="logo.png" height="20"/>
         </Link>
       </div>
       <ul className="nav navbar-nav">
