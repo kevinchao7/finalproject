@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes)=>{
           len : { args : [1,30], msg : "Must be between 1 and 30 characters."}
         }
     },
-    google_id : {
+    google : {
       allowNull : false,
       type      : DataTypes.STRING
     },

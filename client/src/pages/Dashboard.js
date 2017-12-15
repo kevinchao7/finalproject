@@ -4,9 +4,7 @@ import Row from "../components/Row";
 import Col from "../components/Col";
 import API from "../utils/API";
 import {BarChart, Legend} from 'react-easy-chart';
-// Load Highcharts
-// Load Highcharts
-var Highcharts = require('highcharts');
+const Highcharts = require('highcharts');
 
 
 class Dashboard extends Component {

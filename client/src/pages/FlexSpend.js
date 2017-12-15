@@ -4,6 +4,7 @@ import Alert from "../components/Alert";
 import API from "../utils/API";
 import { Input, FormBtn, DropDownList } from "../components/Form";
 import { Link } from "react-router-dom";
+const Highcharts = require('highcharts');
 
 class FlexSpend extends Component {
   state = {
@@ -15,6 +16,7 @@ class FlexSpend extends Component {
   // When the component mounts, load the next dog to be displayed
   componentDidMount() {
     this.loadFlexSpendings();
+    this.runChart();
   }
 
   // handleBtnClick = event => {
@@ -88,7 +90,121 @@ class FlexSpend extends Component {
     })
   }
 
+  runChart = () => {
+    Highcharts.chart('linechart', {
+        title: {
+            text: 'Spending History'
+        },
+
+        yAxis: {
+            title: {
+                text: '$ USD'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+
+        series: [{
+            name: 'Clothing',
+            data: [125, 103, 77, 158, 71, 131, 233, 55]
+        }, {
+            name: 'Food',
+            data: [36, 74, 94, 85, 90, 82, 32, 40]
+        }, {
+            name: 'Enertainment',
+            data: [114, 122, 165, 177, 285, 247, 147, 387]
+        }, {
+            name: 'Electronics',
+            data: [null, 300, 798, 509, null, null, 344, 427]
+        }, {
+            name: 'Other',
+            data: [18, 48, 15, 38, 89, 16, 74, 11]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+
+    Highcharts.chart('semichart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: '% Pie',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'history',
+            innerSize: '50%',
+            data: [
+                ['Food',   10.38],
+                ['Electronics',       56.33],
+                ['Clothing', 24.03],
+                ['Entertainment',    4.77],
+                ['Other',     0.91],
+                {
+                    name: 'Flexible Spendings',
+                    y: 0.2,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            ]
+        }]
+    });
+
+  }
+
   render() {
+
 
     var flexPercent = (this.state.flexSpendings / this.state.income * 100).toFixed(2);
     return (
@@ -97,9 +213,9 @@ class FlexSpend extends Component {
       // <p>Total Fixed Cost: {this.state.fixedCost}</p>
       // <p>Fixed Cost Percentage: {fixedPercent}</p>
       <div>
-        <p>Flexible Spending Percent: {flexPercent}%</p>
+        <h4>Flexible Spending Percent: {flexPercent} of 30 %</h4>
         <div class="progress">
-          <div className={(flexPercent > 25 ) ? "progress-bar progress-bar-danger progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={flexPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(flexPercent)/30)*100)+'%'}}>
+          <div className={(flexPercent > 29 ) ? "progress-bar progress-bar-warning progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={flexPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(flexPercent)/30)*100)+'%'}}>
             <span className="sr-only">40% Complete (success)</span>
           </div>
         </div>
@@ -171,6 +287,10 @@ class FlexSpend extends Component {
               Submit Flexible Spending Item
             </FormBtn>
           </form>
+        </div>
+        <div className="col-xs-12">
+          <div id="linechart"></div>
+          <div id="semichart"></div>
         </div>
     </div>
 

@@ -18,9 +18,12 @@ export default {
   updateGoalData: function(data) {
     return axios.put('/api/goal',data);
   },
+  updateFixedData: function(fixedCostData) {
+    return axios.put("/api/fixedcost", fixedCostData);
+  },
   // Saves data to the database
   saveData: function(data) {
-    return axios.post('/api/client', data);
+    return axios.put('/api/client', data);
   },
   saveFixedData: function(fixedCostData) {
     return axios.post("/api/fixedcost", fixedCostData);

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import Card from "../components/Card";
+import Alert from "../components/Alert";
 import API from "../utils/API";
 import { Input, FormBtn, DropDownList } from "../components/Form";
 import { Link } from "react-router-dom";
+import $ from 'jquery';
 
 class Settings extends Component {
   state = {
@@ -55,7 +58,11 @@ class Settings extends Component {
       var tmpObj = {};
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
-        this.setState({ [value.item_name] : value.cost });
+        var id_name = value.item_name  + '_id'
+        this.setState({
+          [value.item_name] : value.cost,
+          [id_name] : value.id
+        });
       });
       this.setState({fixedCost : totalCost, items: resp.data})
     });
@@ -75,15 +82,15 @@ class Settings extends Component {
         this.state.groceries &&
         this.state.other &&
         this.state.client_name &&
-        this.state.savings &&
+        this.state.minimum_savings &&
         this.state.income) {
 
       var tmpObj = {
+        id:2,
         client_name : this.state.client_name,
         monthly_income : this.state.income,
         job_title : this.state.job_title,
-        current_savings : this.state.savings,
-        id: 2
+        minimum_savings : this.state.minimum_savings
       };
       var fixedCostArr = [
         {
@@ -105,19 +112,21 @@ class Settings extends Component {
       ];
 
       fixedCostArr.forEach((resp)=>{
+        var id_name = resp.name + '_id';
         var tmpFixedObj = {
           cost : resp.cost,
           item_name : resp.name,
-          clientId: 2
+          clientId: 2,
+          id:this.state[id_name]
         }
-        API.saveFixedData(tmpFixedObj).then((resp)=>{
-        }).catch(e => {throw e});
+        API.updateFixedData(tmpFixedObj).catch(e => {throw e});
       });
 
       API.saveData(tmpObj).then((resp)=>{
-        this.loadFixedCosts();
       }).catch((err)=>{throw err});
+      // alert('Your settings have been updated ' + this.state.client_name + '!')
     }
+
   };
 
   handleClick(itemId, event){
@@ -204,13 +213,36 @@ class Settings extends Component {
               name="minimum_savings"
               placeholder="Enter amount"
             />
-            <FormBtn
+            <FormBtn data-toggle="modal" data-target="#updateModal"
               disabled={!(this.state.client_name && this.state.minimum_savings && this.state.income)}
               onClick={this.handleFormSubmit}
             >
-              Submit Fixed Cost Item
+              Change Profile
             </FormBtn>
           </form>
+
+          <div className="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h3 className="modal-title text-center" id="exampleModalLabel">Settings</h3>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+
+                  <h4>Your settings have been updated!</h4>
+
+
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
       </div>
 
     );

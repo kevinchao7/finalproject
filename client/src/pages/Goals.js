@@ -6,6 +6,7 @@ import API from "../utils/API";
 import { Input, FormBtn, DropDownList } from "../components/Form";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
+const Highcharts = require('highcharts');
 
 class Goals extends Component {
   state = {
@@ -18,6 +19,7 @@ class Goals extends Component {
   // When the component mounts, load the next dog to be displayed
   componentDidMount() {
     this.loadGoals();
+    this.runChart();
   }
 
   // handleBtnClick = event => {
@@ -146,6 +148,59 @@ class Goals extends Component {
     $('#exampleModal .close').click();
   }
 
+  runChart = () => {
+    Highcharts.chart('goalchart', {
+      chart: {
+          type: 'area'
+      },
+      title: {
+          text: 'Goal History'
+      },
+      xAxis: {
+          categories: ['June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+          tickmarkPlacement: 'on',
+          title: {
+              enabled: false
+          }
+      },
+      yAxis: {
+          title: {
+              text: '$ USD'
+          },
+          labels: {
+              formatter: function () {
+                  return this.value;
+              }
+          }
+      },
+      tooltip: {
+        split: true,
+        valueSuffix: '$ USD'
+    },
+      plotOptions: {
+          area: {
+              stacking: 'normal',
+              lineColor: '#666666',
+              lineWidth: 1,
+              marker: {
+                  lineWidth: 1,
+                  lineColor: '#666666'
+              }
+          }
+      },
+      series: [{
+          name: 'Honda CBR1000RR',
+          data: [500, 1000, 1500, 2000, 2500, 3000, 3500]
+      }, {
+          name: 'Honda NSX',
+          data: [1000, 2000, 3000, 4000, 5000, 6000, 7000]
+      }, {
+          name: 'Playstation',
+          data: [0, 40, 80, 120, 160, 200, 240]
+      }]
+    });
+  }
+
 
   render() {
 
@@ -157,9 +212,9 @@ class Goals extends Component {
       // <p>Total Fixed Cost: {this.state.fixedCost}</p>
       // <p>Fixed Cost Percentage: {fixedPercent}</p>
       <div>
-        <p>Financial Goal Percent: {goalPercent}%</p>
+        <h4>Financial Goal Percent: {goalPercent} of 20 %</h4>
         <div class="progress">
-          <div className={(goalPercent > 15 ) ? "progress-bar progress-bar-danger progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={goalPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(goalPercent)/20)*100)+'%'}}>
+          <div className={(goalPercent > 19 ) ? "progress-bar progress-bar-warning progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={goalPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(goalPercent)/20)*100)+'%'}}>
           </div>
         </div>
         <div className="col-xs-8">
@@ -260,6 +315,10 @@ class Goals extends Component {
               Submit Goal Item
             </FormBtn>
           </form>
+        </div>
+
+        <div className='col-xs-12'>
+          <div id="goalchart"></div>
         </div>
 
         <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

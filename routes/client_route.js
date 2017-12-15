@@ -14,15 +14,10 @@ module.exports = (app,db) =>{
   app.put('/api/client',(req,res)=>{
     console.log('Update client: ' + JSON.stringify(req.body,null,4));
     db.clients.update(
+      req.body,
       {
-        client_name: req.body.client_name,
-        monthly_income : req.body.monthly_income,
-        job_title : req.body.job_title,
-        current_savings : req.body.current_savings
-      },
-      {
-        where:{ google_id :req.body.id }
-      }).then((resp)=>{ res.redirect('/profile/') }).catch((err)=>{
+        where:{ id :req.body.id }
+      }).then((resp)=>{ res.redirect('/dashboard') }).catch((err)=>{
         console.log(err);
         res.status(500).end();
       });
@@ -40,11 +35,12 @@ module.exports = (app,db) =>{
         client_name: req.body.client_name,
         monthly_income : req.body.monthly_income,
         job_title : req.body.job_title,
-        current_savings : req.body.current_savings
+        current_savings : req.body.current_savings,
+        minimum_savings : req.body.minimum_savings
       },
       {
         where:{ id :req.body.id }
-      }).then((resp)=>{ res.redirect('/profile/') }).catch((err)=>{
+      }).then((resp)=>{ res.redirect('/signup') }).catch((err)=>{
         console.log(err);
         res.status(500).end();
       });

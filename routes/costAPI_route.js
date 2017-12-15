@@ -47,7 +47,6 @@ module.exports = (app,db)=> {return {
     app.put(route,(req,res)=>{
       // if(req.user && req.isAuthenticated()){
         // db[table].update(req.body, { where : { id : req.query.id, clientid : req.user } })
-        console.log(req.body);
         db[table].update(req.body, { where : { id: req.body.id, clientid : 2 } })
         .then((dbResp)=>{
           // dbTrigger(db,req);
