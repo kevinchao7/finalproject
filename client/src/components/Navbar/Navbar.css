@@ -5,3 +5,13 @@ nav.navbar.navbar-default {
   left:0;
   width:100%;
 }
+
+.navbar {
+  background-color: #E2D8A3 !important;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background-color: #E1694E !important;
+  border-radius: 5px;
+  color: white !important;
+}

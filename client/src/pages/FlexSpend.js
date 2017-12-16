@@ -120,14 +120,14 @@ class FlexSpend extends Component {
             name: 'Clothing',
             data: [125, 103, 77, 158, 71, 131, 233, 55]
         }, {
-            name: 'Food',
+            name: 'Restaurants',
             data: [36, 74, 94, 85, 90, 82, 32, 40]
         }, {
             name: 'Enertainment',
             data: [114, 122, 165, 177, 285, 247, 147, 387]
         }, {
             name: 'Electronics',
-            data: [null, 300, 798, 509, null, null, 344, 427]
+            data: [200, 300, 798, 509, 220, 0, 344, 427]
         }, {
             name: 'Other',
             data: [18, 48, 15, 38, 89, 16, 74, 11]
@@ -150,57 +150,6 @@ class FlexSpend extends Component {
 
     });
 
-    Highcharts.chart('semichart', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: 0,
-            plotShadow: false
-        },
-        title: {
-            text: '% Pie',
-            align: 'center',
-            verticalAlign: 'middle',
-            y: 40
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                dataLabels: {
-                    enabled: true,
-                    distance: -50,
-                    style: {
-                        fontWeight: 'bold',
-                        color: 'white'
-                    }
-                },
-                startAngle: -90,
-                endAngle: 90,
-                center: ['50%', '75%']
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'history',
-            innerSize: '50%',
-            data: [
-                ['Food',   10.38],
-                ['Electronics',       56.33],
-                ['Clothing', 24.03],
-                ['Entertainment',    4.77],
-                ['Other',     0.91],
-                {
-                    name: 'Flexible Spendings',
-                    y: 0.2,
-                    dataLabels: {
-                        enabled: false
-                    }
-                }
-            ]
-        }]
-    });
-
   }
 
   render() {
@@ -219,7 +168,32 @@ class FlexSpend extends Component {
             <span className="sr-only">40% Complete (success)</span>
           </div>
         </div>
-        <div className="col-xs-8">
+        <div className="col-xs-7">
+          <div id="linechart"></div>
+        </div>
+        <div className="col-xs-5">
+          <form>
+            <label>Item Name</label>
+            <Input
+              value={this.state.item_name}
+              onChange={this.handleInputChange}
+              name="item_name"
+              placeholder="Enter an item name"
+            />
+            <label>Item Cost</label>
+            <Input
+              value={this.state.cost}
+              onChange={this.handleInputChange}
+              name="cost"
+              placeholder="Enter cost of item"
+            />
+            <FormBtn
+              disabled={!(this.state.cost && this.state.item_name)}
+              onClick={this.handleFormSubmit}
+            >
+              Submit Flexible Spending Item
+            </FormBtn>
+          </form>
           <table className="table">
             <thead>
               <tr>
@@ -263,34 +237,6 @@ class FlexSpend extends Component {
               )}
             </tbody>
           </table>
-        </div>
-        <div className="col-xs-4">
-          <form>
-            <label>Item Name</label>
-            <Input
-              value={this.state.item_name}
-              onChange={this.handleInputChange}
-              name="item_name"
-              placeholder="Enter an item name"
-            />
-            <label>Item Cost</label>
-            <Input
-              value={this.state.cost}
-              onChange={this.handleInputChange}
-              name="cost"
-              placeholder="Enter cost of item"
-            />
-            <FormBtn
-              disabled={!(this.state.cost && this.state.item_name)}
-              onClick={this.handleFormSubmit}
-            >
-              Submit Flexible Spending Item
-            </FormBtn>
-          </form>
-        </div>
-        <div className="col-xs-12">
-          <div id="linechart"></div>
-          <div id="semichart"></div>
         </div>
     </div>
 

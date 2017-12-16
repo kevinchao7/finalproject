@@ -36,9 +36,7 @@ div[data-reactroot] {
 
 #linechart, #semichart{
   float:left;
-  min-width: 300px;
-  height: 300px;
-  max-width:600px;
+  max-width:100%;
   margin: 0 auto;
 }
 /*#semichart{
@@ -49,3 +47,7 @@ div[data-reactroot] {
   max-width:600px;
   margin: 0 auto;
 }*/
+
+.btn-success {
+  background-color: #E1694E !important;
+}
