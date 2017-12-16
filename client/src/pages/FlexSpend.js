@@ -215,7 +215,7 @@ class FlexSpend extends Component {
       <div>
         <h4>Flexible Spending Percent: {flexPercent} of 30 %</h4>
         <div class="progress">
-          <div className={(flexPercent > 29 ) ? "progress-bar progress-bar-warning progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={flexPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(flexPercent)/30)*100)+'%'}}>
+          <div className={(flexPercent >= 30 ) ? "progress-bar progress-bar-warning progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={flexPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(flexPercent)/30)*100)+'%'}}>
             <span className="sr-only">40% Complete (success)</span>
           </div>
         </div>

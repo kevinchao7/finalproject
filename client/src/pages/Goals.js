@@ -7,6 +7,8 @@ import { Input, FormBtn, DropDownList } from "../components/Form";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
 const Highcharts = require('highcharts');
+const moment = require('moment');
+
 
 class Goals extends Component {
   state = {
@@ -19,7 +21,6 @@ class Goals extends Component {
   // When the component mounts, load the next dog to be displayed
   componentDidMount() {
     this.loadGoals();
-    this.runChart();
   }
 
   // handleBtnClick = event => {
@@ -47,15 +48,18 @@ class Goals extends Component {
   // };
 
   loadGoals = () => {
-    API.getData().then((resp)=>{
+    const p1 = API.getData().then((resp)=>{
       this.setState({income: parseFloat(resp.data.monthly_income)});
     });
-    API.getGoalData().then((resp)=>{
+    const p2 = API.getGoalData().then((resp)=>{
       var totalCost = 0.0;
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.monthly_recurring);
       });
       this.setState({goals : totalCost, items: resp.data})
+    });
+    Promise.all([p1,p2]).then(values=>{
+      this.runChart();
     });
   };
 
@@ -149,15 +153,52 @@ class Goals extends Component {
   }
 
   runChart = () => {
+    var largestGoalLength = 0;
+    this.state.items.forEach((resp)=>{
+      if(largestGoalLength < parseInt(moment(resp.createdAt).startOf('Month').fromNow()) && !(moment(resp.createdAt).startOf('Month').fromNow()).includes('days') ){
+        largestGoalLength = parseInt(moment(resp.createdAt).startOf('Month').fromNow());
+      }
+    });
+
+    var monthArr = [];
+    for (var i = largestGoalLength; i >= 0; i--){
+      monthArr.push(moment().subtract(i,'month').format('MMMM'));
+    };
+    console.log(monthArr);
+
+    var seriesArr = [];
+    this.state.items.forEach((resp)=>{
+      var length = ((moment(resp.createdAt).startOf('Month').fromNow()).includes('days')) ? 0 : parseInt(moment(resp.createdAt).startOf('Month').fromNow());
+      if(isNaN(length)){
+        length = 1;
+      }
+      // console.log(moment(resp.createdAt).startOf('Month').fromNow());
+      // console.log(length);
+      var tmpArr = [];
+      for (var i = largestGoalLength+1; i > 0; i--){
+        if (i <= length){
+          tmpArr.push(parseInt(resp.total_invested)/(i));
+        }else{
+          tmpArr.push(0);
+        }
+      }
+      var tmpObj = {
+        name: resp.item_name,
+        data: tmpArr
+      };
+      seriesArr.push(tmpObj);
+    });
+    console.log(seriesArr);
+
     Highcharts.chart('goalchart', {
       chart: {
           type: 'area'
       },
       title: {
-          text: 'Goal History'
+          text: 'Monthly Goal Investments'
       },
       xAxis: {
-          categories: ['June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+          categories: monthArr,
           tickmarkPlacement: 'on',
           title: {
               enabled: false
@@ -188,17 +229,9 @@ class Goals extends Component {
               }
           }
       },
-      series: [{
-          name: 'Honda CBR1000RR',
-          data: [500, 1000, 1500, 2000, 2500, 3000, 3500]
-      }, {
-          name: 'Honda NSX',
-          data: [1000, 2000, 3000, 4000, 5000, 6000, 7000]
-      }, {
-          name: 'Playstation',
-          data: [0, 40, 80, 120, 160, 200, 240]
-      }]
+      series: seriesArr
     });
+
   }
 
 
@@ -214,7 +247,7 @@ class Goals extends Component {
       <div>
         <h4>Financial Goal Percent: {goalPercent} of 20 %</h4>
         <div class="progress">
-          <div className={(goalPercent > 19 ) ? "progress-bar progress-bar-warning progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={goalPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(goalPercent)/20)*100)+'%'}}>
+          <div className={(goalPercent >= 20 ) ? "progress-bar progress-bar-warning progress-bar-striped active" : "progress-bar progress-bar-success progress-bar-striped"} role="progressbar" aria-valuenow={goalPercent} aria-valuemin="0" aria-valuemax="100" style={{"width":parseInt((parseFloat(goalPercent)/20)*100)+'%'}}>
           </div>
         </div>
         <div className="col-xs-8">
