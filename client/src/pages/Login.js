@@ -7,18 +7,19 @@ import API from "../utils/API";
 
 const About = () =>
   <div>
-    <Hero backgroundImage="https://www.europol.europa.eu/sites/default/files/images/finance_budget.jpg">
-      <h1>Financial Budget App</h1>
-      <h2>Start Saving Now!</h2>
-    </Hero>
-    <Container style={{ marginTop: 30 }}>
-      <Row>
-        <Col size="md-12">
+    <div className="col-sm-offset-4 col-sm-4">
+      <div className="card">
+        <div className="header text-center">
+          <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+          <h3>Welcome to Up 2 Budget</h3>
+          <p>&nbsp;</p>
+          <img src="logo.png"/>
+          <p>&nbsp;</p><p>&nbsp;</p>
           <p>Please Log In.</p>
           <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   </div>;
 
 export default About;

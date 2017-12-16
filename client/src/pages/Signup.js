@@ -124,6 +124,13 @@ class Signup extends Component {
               name="income"
               placeholder="Enter amount"
             />
+            <label>How much do you currently have saved?</label>
+            <Input
+              value={this.state.saved}
+              onChange={this.handleInputChange}
+              name="saved"
+              placeholder="Enter amount"
+            />
             <strong>How much do you generally spend per month on the following:</strong>
             <div Class="row">
               <div Class="col-md-3">

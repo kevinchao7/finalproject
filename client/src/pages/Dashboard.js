@@ -27,7 +27,7 @@ class Dashboard extends Component {
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
       });
-      this.setState({fixedCost : totalCost})
+      this.setState({fixedCost : totalCost || 0})
     });
 
     const p2 = API.getFlexData().then((resp)=>{
@@ -35,7 +35,7 @@ class Dashboard extends Component {
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
       });
-      this.setState({flexSpend : totalCost})
+      this.setState({flexSpend : totalCost || 0})
     });
 
     const p3 = API.getGoalData().then((resp)=>{
@@ -131,6 +131,7 @@ class Dashboard extends Component {
     const flexPercentage = calcPercent(this.state.flexSpend,this.state.income);
     const goalsPercentage = calcPercent(this.state.goals,this.state.income);
     const savings = this.state.income - this.state.fixedCost - this.state.flexSpend -this.state.goals;
+    const totalSavings = savings * 7 || 0;
     const savingsPercentage = calcPercent(savings,this.state.income);
 
     const config = [
@@ -153,11 +154,12 @@ class Dashboard extends Component {
               </div>
               <div id="piechart"></div>
               <div className="col-xs-12">
-                <h3>Monthly Income: <b>${this.state.income}</b></h3>
-                <h3>Fixed Costs: <b>${this.state.fixedCost}</b></h3>
-                <h3>Flexible Spending: <b>${this.state.flexSpend}</b></h3>
-                <h3>Financial Goals: <b>${parseInt(this.state.goals)}</b></h3>
-                <h3>Estimated Monthly Savings: <b>${parseInt(savings)}</b></h3>
+                <h3>Monthly Income: <b>${this.state.income || 0}</b></h3>
+                <h3>Fixed Costs: <b>${this.state.fixedCost || 0}</b></h3>
+                <h3>Flexible Spending: <b>${this.state.flexSpend || 0}</b></h3>
+                <h3>Total Savings Till Date: <b>${totalSavings || 0}</b></h3>
+                <h3>Financial Goals: <b>${parseInt(this.state.goals) || 0}</b></h3>
+                <h3>Estimated Monthly Savings: <b>${parseInt(savings) || 0}</b></h3>
               </div>
             </Col>
           </Row>
