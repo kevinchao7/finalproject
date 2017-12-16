@@ -16,7 +16,6 @@ class FlexSpend extends Component {
   // When the component mounts, load the next dog to be displayed
   componentDidMount() {
     this.loadFlexSpendings();
-    this.runChart();
   }
 
   // handleBtnClick = event => {
@@ -44,16 +43,19 @@ class FlexSpend extends Component {
   // };
 
   loadFlexSpendings = () => {
-    API.getData().then((resp)=>{
+    const p1 = API.getData().then((resp)=>{
       this.setState({income: parseFloat(resp.data.monthly_income)});
     });
-    API.getFlexData().then((resp)=>{
+    const p2 = API.getFlexData().then((resp)=>{
       var totalCost = 0.0;
       resp.data.forEach((value)=>{
         totalCost += parseFloat(value.cost);
       });
       this.setState({flexSpendings : totalCost, items: resp.data})
     });
+    Promise.all([p1,p2]).then(values=>{
+      this.runChart();
+    }).catch((e)=>{throw e});
   };
 
   handleInputChange = event => {
@@ -91,64 +93,104 @@ class FlexSpend extends Component {
   }
 
   runChart = () => {
+    // Highcharts.chart('linechart', {
+    //     title: {
+    //         text: 'Spending History'
+    //     },
+    //
+    //     yAxis: {
+    //         title: {
+    //             text: '$ USD'
+    //         }
+    //     },
+    //     legend: {
+    //         layout: 'vertical',
+    //         align: 'right',
+    //         verticalAlign: 'middle'
+    //     },
+    //
+    //     plotOptions: {
+    //         series: {
+    //             label: {
+    //                 connectorAllowed: false
+    //             },
+    //             pointStart: 2016
+    //         }
+    //     },
+    //
+    //     series: [{
+    //         name: 'Flexible Spendings',
+    //         data: [125, 103, 77, 158, 71, 131, 233, 55]
+    //     }],
+    //
+    //     responsive: {
+    //         rules: [{
+    //             condition: {
+    //                 maxWidth: 500
+    //             },
+    //             chartOptions: {
+    //                 legend: {
+    //                     layout: 'horizontal',
+    //                     align: 'center',
+    //                     verticalAlign: 'bottom'
+    //                 }
+    //             }
+    //         }]
+    //     }
+    //
+    // });
     Highcharts.chart('linechart', {
-        title: {
-            text: 'Spending History'
-        },
-
-        yAxis: {
-            title: {
-                text: '$ USD'
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Spending History'
+    },
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
             }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 2010
-            }
-        },
-
-        series: [{
-            name: 'Clothing',
-            data: [125, 103, 77, 158, 71, 131, 233, 55]
-        }, {
-            name: 'Restaurants',
-            data: [36, 74, 94, 85, 90, 82, 32, 40]
-        }, {
-            name: 'Enertainment',
-            data: [114, 122, 165, 177, 285, 247, 147, 387]
-        }, {
-            name: 'Electronics',
-            data: [200, 300, 798, 509, 220, 0, 344, 427]
-        }, {
-            name: 'Other',
-            data: [18, 48, 15, 38, 89, 16, 74, 11]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
         }
-
-    });
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '$ USD'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: 'Flexible Spending History'
+    },
+    series: [{
+        name: 'Population',
+        data: [
+            ['July', 356.5],
+            ['August', 232.30],
+            ['September', 186.7],
+            ['November', 306.4],
+            ['December', parseFloat(this.state.flexSpendings)]
+        ],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
+});
 
   }
 

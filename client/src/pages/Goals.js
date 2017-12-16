@@ -195,7 +195,7 @@ class Goals extends Component {
           type: 'area'
       },
       title: {
-          text: 'Monthly Goal Investments'
+          text: 'Goal Investments to Date'
       },
       xAxis: {
           categories: monthArr,
@@ -305,7 +305,7 @@ class Goals extends Component {
                             </button>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" id={item.id} onClick={(e) => this.handleTransferRequest(item.id,e)}>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" id={item.id} onClick={(e) => this.handleTransferRequest(item.id,e)}>
                               Transfer
                             </button>
                           </td>
